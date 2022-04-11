@@ -16,10 +16,10 @@ class _GameState extends State<Game> {
   void initState() {
     super.initState();
     _shortcuts = <LogicalKeySet, Intent>{
-      LogicalKeySet(LogicalKeyboardKey.arrowLeft) : MoveLeftIntent(),
-      LogicalKeySet(LogicalKeyboardKey.arrowRight) : MoveRightIntent(),
-      LogicalKeySet(LogicalKeyboardKey.arrowDown) : MoveDownIntent(),
-      LogicalKeySet(LogicalKeyboardKey.arrowUp) : MoveUpIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowLeft) : const MoveLeftIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowRight) : const MoveRightIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowDown) : const MoveDownIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowUp) : const MoveUpIntent(),
     };
   }
   ...
@@ -29,3 +29,54 @@ class _GameState extends State<Game> {
 > Here is a task for you! You can create your own Intents just like we did before.
 
 
+Next step is to create the actions to connect our shortcuts.  
+
+```dart
+class _GameState extends State<Game> {
+  late final Map<LogicalKeySet, Intent> _shortcuts;
+  late final Map<Type, Action<Intent>> _actions;
+  ...
+  @override
+  void initState() {
+      super.initState();
+      ...
+      _actions = <Type, Action<Intent>>{
+          MoveLeftIntent: CallbackAction(onInvoke: _moveLeft),
+          MoveRightIntent: CallbackAction(onInvoke: _moveRight),
+          MoveDownIntent: CallbackAction(onInvoke: _moveDown),
+          MoveUpIntent: CallbackAction(onInvoke: _moveUp),
+      };
+  }
+
+  Object? _moveLeft(Intent intent) {}
+
+  Object? _moveRight(Intent intent) {}
+
+  Object? _moveDown(Intent intent) {}
+
+  Object? _moveUp(Intent intent) {}
+  ...
+}
+```
+
+For binding the shortcuts and actions. We will learn a new widget. Before we were using `Shortcuts` and `Actions` widgets. But, this time we will use something new. We will use a widget called `FocusableActionDetector`.
+
+`FocusableActionDetector` is a widget that combines the functionality of `Actions`, `Shortcuts`, `MouseRegion` and a `Focus` widget to create a detector that defines actions and key bindings, and provides callbacks for handling focus and hover highlights.
+
+Let's add that to our `Game` widget. We will use only `shortcuts`, `actions` and `focusNode`  properties but, there are many more useful properties for us to use.
+
+> Another homework for you! Create a focus node, but do not forget to dispose the resources afterwards!
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return FocusableActionDetector(
+    shortcuts: _shortcuts,
+    actions: _actions,
+    focusNode: _focusNode,
+    child: Column(...),
+  );
+}
+```
+
+Now we have everything setup for our system, after removing all the Drag and Drop related stuff, you can see that our app is idle. But we will fix it in the next step.
