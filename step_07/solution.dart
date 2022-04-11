@@ -16,6 +16,7 @@ class _GameState extends State<Game> {
   late final FocusNode _resultFocusNode;
   late final FocusNode _lettersFocusNode;
   int _selectedIndex = 0;
+  int _movingIndex = -1;
   final letters = ['A', 'E', 'P', 'R', 'S'];
   final result = <String?>[null, null, null, null, null];
   final possibleResults = [
@@ -51,17 +52,35 @@ class _GameState extends State<Game> {
       LogicalKeySet(LogicalKeyboardKey.arrowRight): const MoveRightIntent(),
       LogicalKeySet(LogicalKeyboardKey.arrowDown): const MoveDownIntent(),
       LogicalKeySet(LogicalKeyboardKey.arrowUp): const MoveUpIntent(),
+      LogicalKeySet(LogicalKeyboardKey.space): const SelectLetterIntent(),
     };
     _actions = <Type, Action<Intent>>{
       MoveLeftIntent: CallbackAction(onInvoke: (_) => _moveLeft()),
       MoveRightIntent: CallbackAction(onInvoke: (_) => _moveRight()),
-      MoveDownIntent: CallbackAction(onInvoke: (_) => _moveVertically()),
-      MoveUpIntent: CallbackAction(onInvoke: (_) => _moveVertically()),
+      MoveDownIntent: CallbackAction(onInvoke: (_) => _moveDown()),
+      MoveUpIntent: CallbackAction(onInvoke: (_) => _moveUp()),
+      SelectLetterIntent:
+          CallbackAction(onInvoke: (_) => _selectMovingElement()),
     };
     _focusNode = FocusNode(debugLabel: 'GamePageFocusNode')..requestFocus();
     _resultFocusNode = FocusNode(debugLabel: 'GamePageResultFocusNode');
     _lettersFocusNode = FocusNode(debugLabel: 'GamePageLettersFocusNode')
       ..requestFocus();
+  }
+
+  void _selectMovingElement() {
+    if (_resultFocusNode.hasFocus) {
+      _updateItem(letters[_movingIndex], _selectedIndex);
+      _movingIndex = -1;
+    } else {
+      if (_movingIndex == _selectedIndex) {
+        _movingIndex = -1;
+      } else {
+        _movingIndex = _selectedIndex;
+      }
+    }
+
+    setState(() {});
   }
 
   void _moveLeft() {
@@ -76,9 +95,9 @@ class _GameState extends State<Game> {
     setState(() {});
   }
 
-  void _moveVertically() {
+  void _moveDown() {
     if (_lettersFocusNode.hasFocus) {
-      _lettersFocusNode.previousFocus();
+      _lettersFocusNode.unfocus();
       _resultFocusNode.requestFocus();
     } else {
       _resultFocusNode.unfocus();
@@ -87,7 +106,17 @@ class _GameState extends State<Game> {
     setState(() {});
   }
 
-  // ignore: unused_element
+  void _moveUp() {
+    if (_lettersFocusNode.hasFocus) {
+      _lettersFocusNode.unfocus();
+      _resultFocusNode.requestFocus();
+    } else {
+      _resultFocusNode.unfocus();
+      _lettersFocusNode.requestFocus();
+    }
+    setState(() {});
+  }
+
   void _updateItem(String item, int index) {
     result.removeAt(index);
     result.insert(index, item);
@@ -139,18 +168,18 @@ class _GameState extends State<Game> {
             child: Wrap(
               children: List<Widget>.generate(
                 5,
-                    (index) => Container(
+                (index) => Container(
                   height: 50,
                   width: 50,
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: _resultFocusNode.hasFocus &&
-                          _selectedIndex == index
+                              _selectedIndex == index
                           ? Colors.redAccent
                           : result[index] != null && result[index]!.isNotEmpty
-                          ? Colors.greenAccent
-                          : Colors.white,
+                              ? Colors.greenAccent
+                              : Colors.white,
                     ),
                   ),
                   child: Center(
@@ -172,35 +201,37 @@ class _GameState extends State<Game> {
             child: Wrap(
               children: List<Widget>.generate(
                 5,
-                    (index) {
+                (index) {
                   final currentLetter = letters[index];
                   return result.contains(currentLetter)
                       ? Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    color: Colors.white24,
-                  )
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          color: Colors.white24,
+                        )
                       : Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      border: _lettersFocusNode.hasFocus &&
-                          _selectedIndex == index
-                          ? Border.all(color: Colors.redAccent)
-                          : Border.all(color: Colors.greenAccent),
-                    ),
-                    child: Center(
-                      child: Text(
-                        letters[index],
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  );
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            border: _movingIndex == index
+                                ? Border.all(color: Colors.amberAccent)
+                                : (_lettersFocusNode.hasFocus &&
+                                        _selectedIndex == index)
+                                    ? Border.all(color: Colors.redAccent)
+                                    : Border.all(color: Colors.greenAccent),
+                          ),
+                          child: Center(
+                            child: Text(
+                              letters[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        );
                 },
               ),
             ),
@@ -426,6 +457,10 @@ class MoveDownIntent extends Intent {
 
 class MoveUpIntent extends Intent {
   const MoveUpIntent();
+}
+
+class SelectLetterIntent extends Intent {
+  const SelectLetterIntent();
 }
 
 void main() {

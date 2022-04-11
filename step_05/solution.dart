@@ -11,6 +11,8 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   late final Map<LogicalKeySet, Intent> _shortcuts;
+  late final Map<Type, Action<Intent>> _actions;
+  late final FocusNode _focusNode;
   final letters = ['A', 'E', 'P', 'R', 'S'];
   final result = <String?>[null, null, null, null, null];
   final possibleResults = [
@@ -31,14 +33,47 @@ class _GameState extends State<Game> {
   bool _isWordFound = false;
 
   @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     _shortcuts = <LogicalKeySet, Intent>{
-      LogicalKeySet(LogicalKeyboardKey.arrowLeft) : MoveLeftIntent(),
-      LogicalKeySet(LogicalKeyboardKey.arrowRight) : MoveRightIntent(),
-      LogicalKeySet(LogicalKeyboardKey.arrowDown) : MoveDownIntent(),
-      LogicalKeySet(LogicalKeyboardKey.arrowUp) : MoveUpIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowLeft): const MoveLeftIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowRight): const MoveRightIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowDown): const MoveDownIntent(),
+      LogicalKeySet(LogicalKeyboardKey.arrowUp): const MoveUpIntent(),
     };
+    _actions = <Type, Action<Intent>>{
+      MoveLeftIntent: CallbackAction(onInvoke: (_) => _moveLeft()),
+      MoveRightIntent: CallbackAction(onInvoke: (_) =>_moveRight()),
+      MoveDownIntent: CallbackAction(onInvoke: (_) => _moveDown()),
+      MoveUpIntent: CallbackAction(onInvoke: (_) => _moveUp()),
+    };
+    _focusNode = FocusNode(debugLabel: 'GamePageFocusNode')..requestFocus();
+  }
+
+  void _moveLeft() {}
+
+  void _moveRight() {}
+
+  void _moveDown() {}
+
+  void _moveUp() {}
+
+  // ignore: unused_element
+  void _updateItem(String item, int index) {
+    result.removeAt(index);
+    result.insert(index, item);
+    final element = possibleResults.firstWhereOrNull(
+      (element) => _listEquality.equals(element, result),
+    );
+    _isWordFound = element != null;
+    _isGameFinished = result.whereNotNull().length == 5;
+    setState(() {});
   }
 
   @override
@@ -46,138 +81,100 @@ class _GameState extends State<Game> {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (_isGameFinished) {
         showDialog(
-            context: context,
-            builder: (context) {
-              return Dialog(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (_isWordFound)
-                      const Text('Congratulations!')
-                    else
-                      const Text('Try Again!'),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Restart'),
-                    ),
-                  ],
-                ),
-              );
-            });
+          context: context,
+          builder: (context) {
+            return Dialog(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (_isWordFound)
+                    const Text('Congratulations!')
+                  else
+                    const Text('Try Again!'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Restart'),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       }
     });
-    return Column(
-      children: [
-        Wrap(
-          children: List<Widget>.generate(
-            5,
-                (index) => DragTarget<String>(
-              builder: (context, candidateItems, rejectedItems) {
-                final currentLetter = result[index];
-                return Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: candidateItems.isNotEmpty
-                          ? Colors.redAccent
-                          : currentLetter != null && currentLetter.isNotEmpty
-                          ? Colors.greenAccent
-                          : Colors.white,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      currentLetter ?? '',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
-                  ),
-                );
-              },
-              onAccept: (item) {
-                result.removeAt(index);
-                result.insert(index, item);
-                final element = possibleResults.firstWhereOrNull(
-                      (element) => _listEquality.equals(element, result),
-                );
-                _isWordFound = element != null;
-                _isGameFinished = result.whereNotNull().length == 5;
-                setState(() {});
-              },
-            ),
-          ),
-        ),
-        const SizedBox(height: 50),
-        Wrap(
-          children: List<Widget>.generate(
-            5,
-                (index) {
-              final currentLetter = letters[index];
-              return result.contains(currentLetter)
-                  ? Container(
+    return FocusableActionDetector(
+      shortcuts: _shortcuts,
+      actions: _actions,
+      focusNode: _focusNode,
+      child: Column(
+        children: [
+          Wrap(
+            children: List<Widget>.generate(
+              5,
+              (index) => Container(
                 height: 50,
                 width: 50,
                 margin: const EdgeInsets.symmetric(horizontal: 2),
-                color: Colors.white24,
-              )
-                  : Draggable<String>(
-                data: letters[index],
-                feedback: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent),
-                  ),
-                  child: Center(
-                    child: Text(
-                      letters[index],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: result[index] != null && result[index]!.isNotEmpty
+                        ? Colors.greenAccent
+                        : Colors.white,
                   ),
                 ),
-                childWhenDragging: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  color: Colors.white24,
-                ),
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent),
-                  ),
-                  child: Center(
-                    child: Text(
-                      letters[index],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
+                child: Center(
+                  child: Text(
+                    result[index] ?? '',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        ?.copyWith(color: Colors.white),
                   ),
                 ),
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 50),
+          Wrap(
+            children: List<Widget>.generate(
+              5,
+              (index) {
+                final currentLetter = letters[index];
+                return result.contains(currentLetter)
+                    ? Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        color: Colors.white24,
+                      )
+                    : Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.greenAccent),
+                        ),
+                        child: Center(
+                          child: Text(
+                            letters[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
 
 class GamePage extends StatelessWidget {
   const GamePage({
@@ -249,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
     _shortcuts = <LogicalKeySet, Intent>{
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-      const CheckFieldValidity(),
+          const CheckFieldValidity(),
     };
     _actions = <Type, Action<Intent>>{
       ClearIntent: ClearTextAction(
@@ -317,7 +314,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextField(
                     controller: _controller,
                     focusNode: _focusNode,
-                    onSubmitted: (title){
+                    onSubmitted: (title) {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => GamePage(name: title),
@@ -355,9 +352,9 @@ class _LoginPageState extends State<LoginPage> {
 
 class ClearTextAction extends Action<ClearIntent> {
   ClearTextAction(
-      this.controller,
-      this.focusNode,
-      );
+    this.controller,
+    this.focusNode,
+  );
 
   final TextEditingController controller;
   final FocusNode focusNode;

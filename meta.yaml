@@ -17,7 +17,10 @@ steps:
     has_solution: true
   - name: Step 5
     directory: step_05
-    has_solution: false
+    has_solution: true
   - name: Step 6
     directory: step_06
+    has_solution: true
+  - name: Step 7
+    directory: step_07
     has_solution: true

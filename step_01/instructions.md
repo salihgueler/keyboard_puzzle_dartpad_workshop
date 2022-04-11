@@ -10,6 +10,8 @@ In this workshop, you will be learning the following concepts:
 - Creating keyboard shortcuts for all application
 - Managing focus system with device keyboard
 
+> IMPORTANT: For the focus system and keyboard shortcuts to be working, be sure to click at the app area at least once.
+
 For learning what mentioned above, we will create a word puzzle that we can control with our keyboard. 
 
 The starter project is already prepared for you. Play around with it and get used to it. All functionality works with mouse. You will be given five letters and expected to find a 5 letter word that is defined in our list.

@@ -41,20 +41,20 @@ class _GameState extends State<Game> {
       super.initState();
       ...
       _actions = <Type, Action<Intent>>{
-          MoveLeftIntent: CallbackAction(onInvoke: _moveLeft),
-          MoveRightIntent: CallbackAction(onInvoke: _moveRight),
-          MoveDownIntent: CallbackAction(onInvoke: _moveDown),
-          MoveUpIntent: CallbackAction(onInvoke: _moveUp),
+        MoveLeftIntent: CallbackAction(onInvoke: (_) => _moveLeft()),
+        MoveRightIntent: CallbackAction(onInvoke: (_) =>_moveRight()),
+        MoveDownIntent: CallbackAction(onInvoke: (_) => _moveDown()),
+        MoveUpIntent: CallbackAction(onInvoke: (_) => _moveUp()),
       };
   }
 
-  Object? _moveLeft(Intent intent) {}
+  void _moveLeft() {}
 
-  Object? _moveRight(Intent intent) {}
+  void _moveRight() {}
 
-  Object? _moveDown(Intent intent) {}
+  void _moveDown() {}
 
-  Object? _moveUp(Intent intent) {}
+  void _moveUp() {}
   ...
 }
 ```
