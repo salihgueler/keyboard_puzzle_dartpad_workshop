@@ -6,8 +6,8 @@ As you develop your applications, you are expected to follow the common use-case
 
 In this workshop, you will be learning the following concepts:
 
-- Creating keyboard shortcuts for a single page
-- Creating keyboard shortcuts for all application
+- Creating keyboard shortcuts for different purposes
+- Using key combinations for your shortcuts
 - Managing focus system with device keyboard
 
 > IMPORTANT: For the focus system and keyboard shortcuts to be working, be sure to click at the app area at least once.
