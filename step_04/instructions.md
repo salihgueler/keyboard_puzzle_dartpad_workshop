@@ -118,4 +118,8 @@ class _LoginPageState extends State<LoginPage> {
 
 We can see that, `CallbackAction` gives us a chance to write the function directly where it belongs to. You can use it for calling your business logic or calling side effects. In the explanation above, we are adding a `SnackBar` to tell users if the field is empty or not.
 
+Let's see how the implementation looks like in action:
+
+![Step 4 Result](https://raw.githubusercontent.com/salihgueler/keyboard_puzzle_dartpad_workshop/main/step_04/output.gif)
+
 Now that we have what we need. Let's move on to the game page to play the game!
