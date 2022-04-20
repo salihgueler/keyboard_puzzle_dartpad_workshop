@@ -18,3 +18,6 @@ The starter project is already prepared for you. Play around with it and get use
 
 If you are ready, let's go!
 
+----------
+
+This workshop is authored by Muhammed Salih Guler(@salihgueler), feel free to reach out via DM over Twitter for questions!.

@@ -1,3 +1,5 @@
+> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and it is focused.
+
 In the previous step, we added the steps to have a functioning keyboard navigation. Let's make it actually functioning.
 
 First, we will decide on the strategy to follow to keep track of the indexes.
@@ -19,16 +21,20 @@ class _GameState extends State<Game> {
 Now it is time to add functionality to it:
 
 ```dart
-void _moveLeft() {
-  if (_selectedIndex > 0) {
-    _selectedIndex--;
+class _GameState extends State<Game> {
+  ...
+  void _moveLeft() {
+    if (_selectedIndex > 0) {
+      _selectedIndex--;
+      setState(() {});
+    }
+  }
+
+  void _moveRight() {
+    _selectedIndex++;
     setState(() {});
   }
-}
-
-void _moveRight() {
-  _selectedIndex++;
-  setState(() {});
+  ...    
 }
 ```
 
@@ -54,8 +60,7 @@ class _GameState extends State<Game> {
     ...
     _focusNode = FocusNode(debugLabel: 'GamePageFocusNode')..requestFocus();
     _resultFocusNode = FocusNode(debugLabel: 'GamePageResultFocusNode');
-    _lettersFocusNode = FocusNode(debugLabel: 'GamePageLettersFocusNode')
-      ..requestFocus();
+    _lettersFocusNode = FocusNode(debugLabel: 'GamePageLettersFocusNode')..requestFocus();
   }
   
   ...
@@ -74,7 +79,9 @@ We created the `FocusNode`s as we created them before. Now we will add them to t
 Let's wrap our `Wrap` widgets with Focus and assign the `FocusNode`s created for them.
 
 ```dart
-@override
+class _GameState extends State<Game> {
+  ...
+  @override
   Widget build(BuildContext context) {
     return FocusableActionDetector(
       shortcuts: _shortcuts,
@@ -95,6 +102,8 @@ Let's wrap our `Wrap` widgets with Focus and assign the `FocusNode`s created for
       ),
     );
   }
+  ...
+}
 ```
 
 Lastly we will add our logic to focus and unfocus to the vertical elements with keyboard navigation.
@@ -102,6 +111,8 @@ Lastly we will add our logic to focus and unfocus to the vertical elements with 
 Flutter always expects you to focus on at least one element. But, the focus hierarchy is something that should be controlling. For making the controlling mechanism easier, `FocusNode` has helper functions called `previousFocus` and `nextFocus`. These helps you go through your focus elements without troubling you. But these are not useful in our case. We have 3 different `FocusNodes` and only want to travel between the two of them. That is why we will be using `requestFocus` and `unfocus` funcsions of the `FocusScope` and follow the rule of focusing at least one element all the time.
 
 ```dart
+class _GameState extends State<Game> {
+  ...
   @override
   void initState() {
     super.initState();
@@ -125,6 +136,8 @@ Flutter always expects you to focus on at least one element. But, the focus hier
     }
     setState(() {});
   }
+  ...
+}  
 ```
 
 We removed the up and down functions and combined them into one move vertically function. It checks if one of the nodes has focus and acts accordingly.

@@ -10,7 +10,7 @@ Keyboard operations in Flutter split into 3 important subjects:
 
 **Actions** allow for the definition of operations that the application can perform by invoking them with an `Intent`. `Actions` can be enabled or disabled, and receive the intent instance that invoked them as an argument to allow configuration by the intent.
 
-**Intents** are representations of actions to be triggered when a key or key kombination is triggered from shortcuts.
+**Intents** are representations of actions to be triggered when a key or key combination is triggered from shortcuts.
 
 Now that we know their definitions, let's see them in action!
 
@@ -38,7 +38,7 @@ class CheckFieldValidity extends Intent {
 }
 ```
 
-You can see that, intents are just representations of actions. Let's create shortcuts to represent them now: 
+You can see that intents are just representations of what the user wants to do. Let's create shortcuts to represent them now: 
 
 ```dart
 @override

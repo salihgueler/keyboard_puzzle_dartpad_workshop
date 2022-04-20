@@ -1,3 +1,5 @@
+> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and it is focused. 
+
 Now that we have set up our shortcuts. Let's add the actions for it. 
 
 We can add the actions in two different ways. As you remember from the previous page, Actions allow for the definition of operations that the application can perform by invoking them with an Intent. 
