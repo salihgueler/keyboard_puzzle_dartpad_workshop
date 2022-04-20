@@ -7,13 +7,15 @@ First, we will decide on the strategy to follow to keep track of the indexes.
 We have two sets of horizontal layout to interact with. We will keep track of the index in the horizontal position and decide on which vertical layout we belong by using `FocusNode`s.
 
 Let's start by defining the layout.
+
 ```dart
 class _GameState extends State<Game> {
   late final Map<LogicalKeySet, Intent> _shortcuts;
   late final Map<Type, Action<Intent>> _actions;
   late final FocusNode _focusNode;
   int _selectedIndex = 0;
-}  
+  ...
+}
 ```
 
 `_selectedIndex` is stationed at 0 to give us a chance to have a starting point.
@@ -34,7 +36,7 @@ class _GameState extends State<Game> {
     _selectedIndex++;
     setState(() {});
   }
-  ...    
+  ...
 }
 ```
 
@@ -62,9 +64,9 @@ class _GameState extends State<Game> {
     _resultFocusNode = FocusNode(debugLabel: 'GamePageResultFocusNode');
     _lettersFocusNode = FocusNode(debugLabel: 'GamePageLettersFocusNode')..requestFocus();
   }
-  
+
   ...
-  
+
   @override
   void dispose() {
     _focusNode.dispose();
@@ -125,7 +127,7 @@ class _GameState extends State<Game> {
     };
     ...
   }
-  
+
   void _moverVertically() {
     if (_lettersFocusNode.hasFocus) {
       _lettersFocusNode.unfocus();
@@ -137,9 +139,12 @@ class _GameState extends State<Game> {
     setState(() {});
   }
   ...
-}  
+}
 ```
 
 We removed the up and down functions and combined them into one move vertically function. It checks if one of the nodes has focus and acts accordingly.
+
+Now the current functionality looks like following:
+![Step 6 Result](https://raw.githubusercontent.com/salihgueler/keyboard_puzzle_dartpad_workshop/main/step_06/output.gif)
 
 Let's add the last gaming logic to the page and wrap it up!

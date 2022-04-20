@@ -11,7 +11,7 @@ After we created all. It is time to create elements to run our gaming mechanism.
 class _GameState extends State<Game> {
   ...
   int _movingIndex = -1;
-  
+
   ...
 
   void _selectMovingElement() {
@@ -25,7 +25,7 @@ class _GameState extends State<Game> {
         _movingIndex = _selectedIndex;
       }
     }
-  
+
     setState(() {});
   }
 }
@@ -35,5 +35,6 @@ class _GameState extends State<Game> {
 
 If you five letters to the system, you should be seeing either success or failure message via a dialog.
 
-> Last homework! Add a keyboard shortcut to control the behavior of the dialog with the knowledge you had!
+![Step 7 Result](https://raw.githubusercontent.com/salihgueler/keyboard_puzzle_dartpad_workshop/main/step_07/output.gif)
 
+> Last homework! Add a keyboard shortcut to control the behavior of the dialog with the knowledge you had!

@@ -9,4 +9,8 @@ As next step here what you can do to practice further
 - Check out `MaterialApp` and use the `shortcuts` and `actions` that it brings
 - Bring your application to keyboard and desktop reality!
 
-Good luck and enjoy your game! 
+Good luck and enjoy your game!
+
+---
+
+This workshop was authored by Muhammed Salih Guler(@salihgueler), feel free to reach out via DM over Twitter for questions!.
