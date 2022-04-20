@@ -14,7 +14,7 @@ Keyboard operations in Flutter split into 3 important subjects:
 
 Now that we know their definitions, let's see them in action!
 
-Let's start off by creating a variable to keep our shortcuts just below the `FocusNode` that we created. 
+Let's start off by creating a variable to keep our shortcuts just below the `FocusNode` that we created.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-After we created the variable, we are expected to create key-value pairs for keyboard key combinations and intents. 
+After we created the variable, we are expected to create key-value pairs for keyboard key combinations and intents.
 
 Let's start off by creating intents:
 
@@ -38,29 +38,35 @@ class CheckFieldValidity extends Intent {
 }
 ```
 
-You can see that intents are just representations of what the user wants to do. Let's create shortcuts to represent them now: 
+You can see that intents are just representations of what the user wants to do. Let's create shortcuts to represent them now:
 
 ```dart
-@override
-void initState() {
-  super.initState();
-  _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
-  _shortcuts = <LogicalKeySet, Intent>{
-    LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
-    LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): const CheckFieldValidity(),
-  };
+class _LoginPageState extends State<LoginPage> {
+  ...
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
+    _shortcuts = <LogicalKeySet, Intent>{
+      LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
+      LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): const CheckFieldValidity(),
+    };
+  }
+  ...
 }
 ```
 
 Now let's wire them to the widget tree, before we go to the next step. For that purpose, we will be wrapping our main widget with `Shortcuts`. That widget will help us to build a communication between our keyboard and actions.
 
 ```dart
-@override
-Widget build(BuildContext context) {
-  return Shortcuts(
-    shortcuts: _shortcuts,
-    child: DecoratedBox(...),
-  );
+class _LoginPageState extends State<LoginPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Shortcuts(
+      shortcuts: _shortcuts,
+      child: DecoratedBox(...),
+    );
+  }
 }
 ```
 
