@@ -124,6 +124,7 @@ class GamePage extends StatelessWidget {
             const Spacer(flex: 1),
             Center(
               child: Text(
+                // Should this actually show the name the user typed in?
                 'Welcome %NAME',
                 style: Theme.of(context)
                     .textTheme

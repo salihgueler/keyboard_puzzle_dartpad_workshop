@@ -69,6 +69,10 @@ class _GameState extends State<Game> {
   }
 
   void _selectMovingElement() {
+    // Hm, the logic is a kind of brittle at this point. If you accidentally hit
+    // space on one of the blank letters in the top row, you cannot recover from
+    // it. Furthermore, you can use your arrow key to navigate "beyond" the
+    // 5th character.
     if (_resultFocusNode.hasFocus) {
       _updateItem(letters[_movingIndex], _selectedIndex);
       _movingIndex = -1;

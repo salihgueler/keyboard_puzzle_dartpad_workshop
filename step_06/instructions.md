@@ -1,6 +1,6 @@
 > REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and it is focused.
 
-In the previous step, we added the steps to have a functioning keyboard navigation. Let's make it actually functioning.
+In the previous step, we added the steps to have a functioning keyboard navigation. Let's make it actually work.
 
 First, we will decide on the strategy to follow to keep track of the indexes.
 
@@ -27,14 +27,18 @@ class _GameState extends State<Game> {
   ...
   void _moveLeft() {
     if (_selectedIndex > 0) {
-      _selectedIndex--;
-      setState(() {});
+      // Put the modifications inside setState? Both work fine, but I think 
+      // this is the intended usage?
+      setState(() {
+        _selectedIndex--;
+      });
     }
   }
 
   void _moveRight() {
-    _selectedIndex++;
-    setState(() {});
+    setState(() {
+      _selectedIndex++;
+    });
   }
   ...
 }
@@ -42,9 +46,10 @@ class _GameState extends State<Game> {
 
 This way we can move our cursor left and right and actually add an affect to it on the screen on the UI.
 
+<!-- Once again, maybe an emoji or something to call this blockquote out a bit more or distinguish it from the Code blocks? -->
 > New homework time! Add a way to change the border color of the box to `Colors.redAccent` when it is focused and keep it as it is when it is not focused.
 
-Next thing we are going to be doing isto add the vertical navigation.
+Next, we need to add the vertical navigation.
 
 For that, we will add two `FocusNode`s and add them to the root widgets of the horizontal navigated widgets, which is the `Wrap` widgets.
 

@@ -1,3 +1,6 @@
+// Hm, I think this snippet is actually the same as the solution. As I followed
+// along this step, I tried to do the homework but it was already completed for
+// me :)
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:collection/collection.dart';

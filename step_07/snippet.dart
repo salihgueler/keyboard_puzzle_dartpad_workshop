@@ -56,6 +56,7 @@ class _GameState extends State<Game> {
     _focusNode = FocusNode(debugLabel: 'GamePageFocusNode')..requestFocus();
   }
 
+  // Hm, I filled these in in the previous step, but they're blank here again. Therefore, the  solution I coded did not work.
   void _moveLeft() {}
 
   void _moveRight() {}

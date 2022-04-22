@@ -13,9 +13,10 @@ class _GameState extends State<Game> {
   late final Map<LogicalKeySet, Intent> _shortcuts;
   late final Map<Type, Action<Intent>> _actions;
   late final FocusNode _focusNode;
-  final letters = ['A', 'E', 'P', 'R', 'S'];
-  final result = <String?>[null, null, null, null, null];
-  final possibleResults = [
+  // Should these be private as well?
+  final _letters = ['A', 'E', 'P', 'R', 'S'];
+  final _result = <String?>[null, null, null, null, null];
+  final _possibleResults = [
     ['A', 'P', 'E', 'R', 'S'],
     ['A', 'P', 'R', 'E', 'S'],
     ['A', 'S', 'P', 'E', 'R'],
@@ -66,18 +67,23 @@ class _GameState extends State<Game> {
 
   // ignore: unused_element
   void _updateItem(String item, int index) {
-    result.removeAt(index);
-    result.insert(index, item);
-    final element = possibleResults.firstWhereOrNull(
-      (element) => _listEquality.equals(element, result),
-    );
-    _isWordFound = element != null;
-    _isGameFinished = result.whereNotNull().length == 5;
-    setState(() {});
+    setState(() {
+      // Should these operations be inside the setState function, rather than an
+      // empty setState function?
+      final element = _possibleResults.firstWhereOrNull(
+        (element) => _listEquality.equals(element, result),
+      );
+
+      _result.removeAt(index);
+      _result.insert(index, item);      
+      _isWordFound = element != null;
+      _isGameFinished = result.whereNotNull().length == 5;
+    });
+
+    _maybeShowDialog();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void _maybeShowDialog() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (_isGameFinished) {
         showDialog(
@@ -105,6 +111,13 @@ class _GameState extends State<Game> {
         );
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Should the code that launches a screen be here? Feels like it should be
+    // in separate method called from _updateItem after the game is complete.
+
     return FocusableActionDetector(
       shortcuts: _shortcuts,
       actions: _actions,

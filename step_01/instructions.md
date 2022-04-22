@@ -1,8 +1,10 @@
+# Workshop: Creating a Keyboard Oriented Puzzle Game for Flutter
+
 Flutter's support for Desktop and Web will bring an extra power for you to run your applications over any platform that you can imagine.
 
 But do not forget, with great power, comes great responsibility.
 
-As you develop your applications, you are expected to follow the common use-cases of Desktop and Web platforms that you are part of. One of the biggest use-case is _Keyboard Shortcuts_.
+As you develop your applications, you are expected to support the common use-cases of Desktop and Web platforms that you are part of. One of the biggest use-case is _Keyboard Shortcuts_.
 
 In this workshop, you will be learning to implement the following concepts for _Keyboard Shortcuts_:
 
@@ -10,7 +12,7 @@ In this workshop, you will be learning to implement the following concepts for _
 - Using key combinations for your shortcuts
 - Managing focus system with device keyboard
 
-For learning what mentioned above, we will create a word puzzle that we can control with our keyboard. You will be given five letters and expected to find a 5 letter word that is defined in a given list.
+To explore these topics, we will create a word puzzle that we can control with our keyboard. You will be given five letters and expected to find a 5 letter word that is defined in a given list.
 
 A starter project is already prepared for you. All expected functionality works with the mouse. Play around with it and get used to it. By the end of the workshop, you will be able to implement all the functionality and even more with keyboard shortcuts.
 
@@ -20,4 +22,4 @@ If you are ready, let's go!
 
 ---
 
-This workshop was authored by Muhammed Salih Guler(@salihgueler), feel free to reach out via DM over Twitter for questions!.
+This workshop was authored by Muhammed Salih Guler([@salihgueler](https://twitter.com/salihgueler)), feel free to reach out via DM over Twitter for questions!.
