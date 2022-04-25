@@ -1,15 +1,15 @@
 > REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and double check if it is focused.
 
-Now that we have set up our shortcuts. Let's add the actions for it.
+Now that you have set up your shortcuts. Let's add the actions for it.
 
-We can add the actions in two different ways. As you remember from the previous page, Actions allow for the definition of operations that the application can perform by invoking them with an Intent.
+You can add the actions in two different ways. As you remember from the previous page, Actions allow for the definition of operations that the application can perform by invoking them with an Intent.
 
-We can either create our own Action type or, use `CallbackAction` and pass our variable. Let's learn about both of them now.
+You can either create your own Action type or, use `CallbackAction` and pass your variable. Let's learn about both of them now.
 
 ```dart
 // Defines an action to remove the texts bound to the `TextEditingController` 
 // if it is not empty and if it is empty, it unfocuses from the field. You can 
-// see that we bound this action into our `ClearIntent`.
+// see that you bound this action into your `ClearIntent`.
 class ClearTextAction extends Action<ClearIntent> {
   ClearTextAction(
     this.controller,
@@ -32,9 +32,9 @@ class ClearTextAction extends Action<ClearIntent> {
 }
 ```
 
-But, our widget tree still does not know which actions are available for the page that we are in. For that purpose, we will use `Actions` widget and pass this action into it.
+But, your widget tree still does not know which actions are available for the page that you are in. For that purpose, you will use `Actions` widget and pass this action into it.
 
-First let's create our map like we did with shortcuts.
+First let's create your map like you did with shortcuts.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Now, we assign the variable.
+Now, you assign the variable.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-You can see that under the `Shortcuts` now we have an `Actions` widget to call our actions from. It accepts a map of actions with intents to be able to use them.
+You can see that under the `Shortcuts` now you have an `Actions` widget to call your actions from. It accepts a map of actions with intents to be able to use them.
 
 If you run the application now, you can see that with the Escape button click, the text is cleared from the field.
 
@@ -122,10 +122,12 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-We can see that, `CallbackAction` gives us a chance to write the function directly where it belongs to. You can use it for calling your business logic or calling side effects. In the explanation above, we are adding a `SnackBar` to tell users if the field is empty or not.
+You can see that, `CallbackAction` gives us a chance to write the function directly where it belongs to. You can use it for calling your business logic or calling side effects. In the explanation above, you are adding a `SnackBar` to tell users if the field is empty or not.
 
 Let's see how the implementation looks like in action:
 
 ![Step 4 Result](https://raw.githubusercontent.com/salihgueler/keyboard_puzzle_dartpad_workshop/main/step_04/output.gif)
 
-Now that we have what we need. Let's move on to the game page to play the game!
+Now that you have what you need. Let's move on to the game page to play the game!
+
+>📝 Homework time! Now that you know, how to do keyboard shortcuts functioning, add a new intent called `SubmitFieldIntent` for `Enter` keyboard key. You will use it to navigate to the next Game Page.

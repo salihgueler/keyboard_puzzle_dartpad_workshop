@@ -7,6 +7,7 @@ As next step here what you can do to practice further
 - Add a textfield check with submission
 - Reset the game at any point with ESC key
 - Check out `MaterialApp` and use the `shortcuts` and `actions` that it brings
+- Check out `SingleActivator`, `ShortcutActivator` classes
 - Bring your application to keyboard and desktop reality!
 
 Good luck and enjoy your game!

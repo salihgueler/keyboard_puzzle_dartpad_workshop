@@ -24,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
           const CheckFieldValidity(),
+      LogicalKeySet(LogicalKeyboardKey.enter): const SubmitFieldIntent(),
     };
     _actions = <Type, Action<Intent>>{
       ClearIntent: ClearTextAction(
@@ -41,6 +42,22 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           );
+        },
+      ),
+      SubmitFieldIntent: CallbackAction(
+        onInvoke: (_) {
+          return ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(_controller.text),
+            ),
+          );
+          // We will wire this up once the Game Page is ready!
+          //
+          // return Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) => GamePage(name: _controller.text),
+          //   ),
+          // );
         },
       ),
     };
@@ -146,6 +163,10 @@ class ClearIntent extends Intent {
 
 class CheckFieldValidity extends Intent {
   const CheckFieldValidity();
+}
+
+class SubmitFieldIntent extends Intent {
+  const SubmitFieldIntent();
 }
 
 void main() {

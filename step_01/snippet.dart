@@ -256,7 +256,7 @@ class _GameState extends State<Game> {
                   _result.removeAt(index);
                   _result.insert(index, item);
                   final element = _possibleresults.firstWhereOrNull(
-                        (element) => _listEquality.equals(element, _result),
+                    (element) => _listEquality.equals(element, _result),
                   );
                   _isWordFound = element != null;
                   _isGameFinished = _result.whereNotNull().length == 5;

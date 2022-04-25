@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     _shortcuts = <LogicalKeySet, Intent>{
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-      const CheckFieldValidity(),
+          const CheckFieldValidity(),
     };
     _controller = TextEditingController();
   }

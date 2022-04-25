@@ -1,15 +1,17 @@
-Now that we have the the login page ready. It is time to wire the game page to it and enable the keyboard navigation on it. 
+> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the the letter boxes once the app is running and it gets the initial focus.
+
+Now that you have the the login page ready. It is time to clean up the game page and enable the keyboard navigation on it. 
 
 You can check the snippet on the right side to see the base project for the second part of the tutorial.
 
-We will work mainly on `Game` widget. We will get rid of all the mouse actions and actually use keyboard arrows and keys for playing the game.
+You will work mainly on `Game` widget. You will get rid of all the mouse actions and actually use keyboard arrows and keys for playing the game.
 
-First things first, let's create our keyboard shortcuts to do the operations. 
+First things first, let's create your keyboard shortcuts to do the operations. 
 
 ```dart
 class _GameState extends State<Game> {
   late final Map<LogicalKeySet, Intent> _shortcuts;
-  final letters = ['A', 'E', 'P', 'R', 'S'];
+  final _letters = ['A', 'E', 'P', 'R', 'S'];
   ...
 
   @override
@@ -28,10 +30,10 @@ class _GameState extends State<Game> {
 ```
 
 
-> 📝 Here is a task for you! You can create your own Intents just like we did before.
+> 📝 Here is a task for you! You can create your own Intents just like you did before.
 
 
-Next step is to create the actions to connect our shortcuts.  
+Next step is to create the actions to connect your shortcuts.  
 
 ```dart
 class _GameState extends State<Game> {
@@ -61,11 +63,11 @@ class _GameState extends State<Game> {
 }
 ```
 
-For binding the shortcuts and actions. We will learn a new widget. Before we were using `Shortcuts` and `Actions` widgets. But, this time we will use something new. We will use a widget called `FocusableActionDetector`.
+For binding the shortcuts and actions. You will learn a new widget. Before you were using `Shortcuts` and `Actions` widgets. But, this time you will use something new. You will use a widget called `FocusableActionDetector`.
 
 `FocusableActionDetector` is a widget that combines the functionality of `Actions`, `Shortcuts`, `MouseRegion` and a `Focus` widget to create a detector that defines actions and key bindings, and provides callbacks for handling focus and hover highlights.
 
-Let's add that to our `Game` widget. We will use only `shortcuts`, `actions` and `focusNode`  properties but, there are many more useful properties for us to use.
+Let's add that to your `Game` widget. You will use only `shortcuts`, `actions` and `focusNode`  properties but, there are many more useful properties for us to use.
 
 
 > 📝 Another homework for you! Create a focus node, but do not forget to dispose the resources afterwards!
@@ -82,4 +84,4 @@ Widget build(BuildContext context) {
 }
 ```
 
-Now we have everything setup for our system, after removing all the Drag and Drop related stuff, you can see that our app is idle. But we will fix it in the next step.
+Now you have everything setup for your system, after removing all the Drag and Drop related stuff, you can see that your app is idle. But you will fix it in the next step.

@@ -17,9 +17,9 @@ class _GameState extends State<Game> {
   late final FocusNode _lettersFocusNode;
   int _selectedIndex = 0;
   int _movingIndex = -1;
-  final letters = ['A', 'E', 'P', 'R', 'S'];
-  final result = <String?>[null, null, null, null, null];
-  final possibleResults = [
+  final _letters = ['A', 'E', 'P', 'R', 'S'];
+  final _result = <String?>[null, null, null, null, null];
+  final _possibleResults = [
     ['A', 'P', 'E', 'R', 'S'],
     ['A', 'P', 'R', 'E', 'S'],
     ['A', 'S', 'P', 'E', 'R'],
@@ -39,8 +39,6 @@ class _GameState extends State<Game> {
   @override
   void dispose() {
     _focusNode.dispose();
-    _resultFocusNode.dispose();
-    _lettersFocusNode.dispose();
     super.dispose();
   }
 
@@ -57,10 +55,10 @@ class _GameState extends State<Game> {
     _actions = <Type, Action<Intent>>{
       MoveLeftIntent: CallbackAction(onInvoke: (_) => _moveLeft()),
       MoveRightIntent: CallbackAction(onInvoke: (_) => _moveRight()),
-      MoveDownIntent: CallbackAction(onInvoke: (_) => _moveDown()),
-      MoveUpIntent: CallbackAction(onInvoke: (_) => _moveUp()),
+      MoveDownIntent: CallbackAction(onInvoke: (_) => _moveVertically()),
+      MoveUpIntent: CallbackAction(onInvoke: (_) => _moveVertically()),
       SelectLetterIntent:
-      CallbackAction(onInvoke: (_) => _selectMovingElement()),
+          CallbackAction(onInvoke: (_) => _selectMovingElement()),
     };
     _focusNode = FocusNode(debugLabel: 'GamePageFocusNode')..requestFocus();
     _resultFocusNode = FocusNode(debugLabel: 'GamePageResultFocusNode');
@@ -70,7 +68,7 @@ class _GameState extends State<Game> {
 
   void _selectMovingElement() {
     if (_resultFocusNode.hasFocus) {
-      _updateItem(letters[_movingIndex], _selectedIndex);
+      _updateItem(_letters[_movingIndex], _selectedIndex);
       _movingIndex = -1;
     } else {
       if (_movingIndex == _selectedIndex) {
@@ -85,30 +83,23 @@ class _GameState extends State<Game> {
 
   void _moveLeft() {
     if (_selectedIndex > 0) {
-      _selectedIndex--;
-      setState(() {});
+      setState(() {
+        _selectedIndex--;
+      });
     }
   }
 
   void _moveRight() {
-    _selectedIndex++;
-    setState(() {});
-  }
-
-  void _moveDown() {
-    if (_lettersFocusNode.hasFocus) {
-      _lettersFocusNode.unfocus();
-      _resultFocusNode.requestFocus();
-    } else {
-      _resultFocusNode.unfocus();
-      _lettersFocusNode.requestFocus();
+    if (_selectedIndex < 4) {
+      setState(() {
+        _selectedIndex++;
+      });
     }
-    setState(() {});
   }
 
-  void _moveUp() {
+  void _moveVertically() {
     if (_lettersFocusNode.hasFocus) {
-      _lettersFocusNode.unfocus();
+      _lettersFocusNode.previousFocus();
       _resultFocusNode.requestFocus();
     } else {
       _resultFocusNode.unfocus();
@@ -118,18 +109,21 @@ class _GameState extends State<Game> {
   }
 
   void _updateItem(String item, int index) {
-    result.removeAt(index);
-    result.insert(index, item);
-    final element = possibleResults.firstWhereOrNull(
-          (element) => _listEquality.equals(element, result),
-    );
-    _isWordFound = element != null;
-    _isGameFinished = result.whereNotNull().length == 5;
-    setState(() {});
+    setState(() {
+      _result.removeAt(index);
+      _result.insert(index, item);
+      final element = _possibleResults.firstWhereOrNull(
+        (element) => _listEquality.equals(element, _result),
+      );
+
+      _isWordFound = element != null;
+      _isGameFinished = _result.whereNotNull().length == 5;
+    });
+
+    _maybeShowDialog();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void _maybeShowDialog() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (_isGameFinished) {
         showDialog(
@@ -157,6 +151,10 @@ class _GameState extends State<Game> {
         );
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FocusableActionDetector(
       shortcuts: _shortcuts,
       actions: _actions,
@@ -168,23 +166,23 @@ class _GameState extends State<Game> {
             child: Wrap(
               children: List<Widget>.generate(
                 5,
-                    (index) => Container(
+                (index) => Container(
                   height: 50,
                   width: 50,
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: _resultFocusNode.hasFocus &&
-                          _selectedIndex == index
+                              _selectedIndex == index
                           ? Colors.redAccent
-                          : result[index] != null && result[index]!.isNotEmpty
-                          ? Colors.greenAccent
-                          : Colors.white,
+                          : _result[index] != null && _result[index]!.isNotEmpty
+                              ? Colors.greenAccent
+                              : Colors.white,
                     ),
                   ),
                   child: Center(
                     child: Text(
-                      result[index] ?? '',
+                      _result[index] ?? '',
                       style: Theme.of(context)
                           .textTheme
                           .headline6
@@ -201,37 +199,37 @@ class _GameState extends State<Game> {
             child: Wrap(
               children: List<Widget>.generate(
                 5,
-                    (index) {
-                  final currentLetter = letters[index];
-                  return result.contains(currentLetter)
+                (index) {
+                  final currentLetter = _letters[index];
+                  return _result.contains(currentLetter)
                       ? Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    color: Colors.white24,
-                  )
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          color: Colors.white24,
+                        )
                       : Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      border: _movingIndex == index
-                          ? Border.all(color: Colors.amberAccent)
-                          : (_lettersFocusNode.hasFocus &&
-                          _selectedIndex == index)
-                          ? Border.all(color: Colors.redAccent)
-                          : Border.all(color: Colors.greenAccent),
-                    ),
-                    child: Center(
-                      child: Text(
-                        letters[index],
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  );
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            border: _movingIndex == index
+                                ? Border.all(color: Colors.amberAccent)
+                                : (_lettersFocusNode.hasFocus &&
+                                        _selectedIndex == index)
+                                    ? Border.all(color: Colors.redAccent)
+                                    : Border.all(color: Colors.greenAccent),
+                          ),
+                          child: Center(
+                            child: Text(
+                              _letters[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        );
                 },
               ),
             ),
@@ -298,10 +296,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
-  late Map<Type, Action<Intent>> _actions;
-  late TextEditingController _controller;
+  late final FocusNode _focusNode;
+  late final Map<LogicalKeySet, Intent> _shortcuts;
+  late final Map<Type, Action<Intent>> _actions;
+  late final TextEditingController _controller;
 
   @override
   void initState() {
@@ -312,7 +310,8 @@ class _LoginPageState extends State<LoginPage> {
     _shortcuts = <LogicalKeySet, Intent>{
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-      const CheckFieldValidity(),
+          const CheckFieldValidity(),
+      LogicalKeySet(LogicalKeyboardKey.enter): const SubmitFieldIntent(),
     };
     _actions = <Type, Action<Intent>>{
       ClearIntent: ClearTextAction(
@@ -328,6 +327,15 @@ class _LoginPageState extends State<LoginPage> {
                     ? 'Field should not be empty'
                     : 'Field is valid',
               ),
+            ),
+          );
+        },
+      ),
+      SubmitFieldIntent: CallbackAction(
+        onInvoke: (_) {
+          return Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => GamePage(name: _controller.text),
             ),
           );
         },
@@ -380,13 +388,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextField(
                     controller: _controller,
                     focusNode: _focusNode,
-                    onSubmitted: (title) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => GamePage(name: title),
-                        ),
-                      );
-                    },
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red, width: 3),
@@ -418,9 +420,9 @@ class _LoginPageState extends State<LoginPage> {
 
 class ClearTextAction extends Action<ClearIntent> {
   ClearTextAction(
-      this.controller,
-      this.focusNode,
-      );
+    this.controller,
+    this.focusNode,
+  );
 
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -441,6 +443,10 @@ class ClearIntent extends Intent {
 
 class CheckFieldValidity extends Intent {
   const CheckFieldValidity();
+}
+
+class SubmitFieldIntent extends Intent {
+  const SubmitFieldIntent();
 }
 
 class MoveLeftIntent extends Intent {

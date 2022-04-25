@@ -49,7 +49,7 @@ class _GameState extends State<Game> {
     };
     _actions = <Type, Action<Intent>>{
       MoveLeftIntent: CallbackAction(onInvoke: (_) => _moveLeft()),
-      MoveRightIntent: CallbackAction(onInvoke: (_) =>_moveRight()),
+      MoveRightIntent: CallbackAction(onInvoke: (_) => _moveRight()),
       MoveDownIntent: CallbackAction(onInvoke: (_) => _moveDown()),
       MoveUpIntent: CallbackAction(onInvoke: (_) => _moveUp()),
     };
@@ -67,14 +67,14 @@ class _GameState extends State<Game> {
   // ignore: unused_element
   void _updateItem(String item, int index) {
     setState(() {
-      final element = _possibleResults.firstWhereOrNull(
-            (element) => _listEquality.equals(element, result),
-      );
-
       _result.removeAt(index);
       _result.insert(index, item);
+      final element = _possibleResults.firstWhereOrNull(
+        (element) => _listEquality.equals(element, _result),
+      );
+
       _isWordFound = element != null;
-      _isGameFinished = result.whereNotNull().length == 5;
+      _isGameFinished = _result.whereNotNull().length == 5;
     });
 
     _maybeShowDialog();
@@ -116,68 +116,74 @@ class _GameState extends State<Game> {
       shortcuts: _shortcuts,
       actions: _actions,
       focusNode: _focusNode,
-      child: Column(
-        children: [
-          Wrap(
-            children: List<Widget>.generate(
-              5,
-                  (index) => Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.symmetric(horizontal: 2),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: result[index] != null && result[index]!.isNotEmpty
-                        ? Colors.greenAccent
-                        : Colors.white,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    result[index] ?? '',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 50),
-          Wrap(
-            children: List<Widget>.generate(
-              5,
-                  (index) {
-                final currentLetter = letters[index];
-                return result.contains(currentLetter)
-                    ? Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  color: Colors.white24,
-                )
-                    : Container(
+      child: GestureDetector(
+        onTap: () {
+          _focusNode.requestFocus();
+        },
+        child: Column(
+          children: [
+            Wrap(
+              children: List<Widget>.generate(
+                5,
+                (index) => Container(
                   height: 50,
                   width: 50,
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent),
+                    border: Border.all(
+                      color:
+                          _result[index] != null && _result[index]!.isNotEmpty
+                              ? Colors.greenAccent
+                              : Colors.white,
+                    ),
                   ),
                   child: Center(
                     child: Text(
-                      letters[index],
+                      _result[index] ?? '',
                       style: Theme.of(context)
                           .textTheme
                           .headline6
                           ?.copyWith(color: Colors.white),
                     ),
                   ),
-                );
-              },
+                ),
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 50),
+            Wrap(
+              children: List<Widget>.generate(
+                5,
+                (index) {
+                  final currentLetter = _letters[index];
+                  return _result.contains(currentLetter)
+                      ? Container(
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          color: Colors.white24,
+                        )
+                      : Container(
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.greenAccent),
+                          ),
+                          child: Center(
+                            child: Text(
+                              _letters[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -231,159 +237,6 @@ class GamePage extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
-  late Map<Type, Action<Intent>> _actions;
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')
-      ..requestFocus();
-    _shortcuts = <LogicalKeySet, Intent>{
-      LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
-      LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-      const CheckFieldValidity(),
-    };
-    _actions = <Type, Action<Intent>>{
-      ClearIntent: ClearTextAction(
-        _controller,
-        _focusNode,
-      ),
-      CheckFieldValidity: CallbackAction(
-        onInvoke: (_) {
-          return ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                _controller.text.isEmpty
-                    ? 'Field should not be empty'
-                    : 'Field is valid',
-              ),
-            ),
-          );
-        },
-      ),
-    };
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Shortcuts(
-      shortcuts: _shortcuts,
-      child: Actions(
-        actions: _actions,
-        child: DecoratedBox(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.blue,
-                Colors.blueAccent,
-                Colors.lightBlue,
-                Colors.lightBlueAccent,
-              ],
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Image.network(
-                  'https://docs.flutter.dev/assets/images/dash/Dashatars.png',
-                  scale: 8,
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                  ),
-                  child: TextField(
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    onSubmitted: (title) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => GamePage(name: title),
-                        ),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 3),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 3),
-                      ),
-                      labelText: 'Enter your name',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(color: Colors.white54),
-                    ),
-                    cursorColor: Colors.white,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ClearTextAction extends Action<ClearIntent> {
-  ClearTextAction(
-      this.controller,
-      this.focusNode,
-      );
-
-  final TextEditingController controller;
-  final FocusNode focusNode;
-
-  @override
-  void invoke(covariant ClearIntent intent) {
-    if (controller.text.isNotEmpty) {
-      controller.clear();
-    } else {
-      focusNode.unfocus();
-    }
-  }
-}
-
-class ClearIntent extends Intent {
-  const ClearIntent();
-}
-
-class CheckFieldValidity extends Intent {
-  const CheckFieldValidity();
-}
-
 class MoveLeftIntent extends Intent {
   const MoveLeftIntent();
 }
@@ -411,7 +264,7 @@ class DashatarPuzzleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: LoginPage(),
+        body: GamePage(name: '@salihgueler'),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:collection/collection.dart';
 
 class Game extends StatefulWidget {
@@ -10,9 +9,9 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
-  final letters = ['A', 'E', 'P', 'R', 'S'];
-  final result = <String?>[null, null, null, null, null];
-  final possibleResults = [
+  final _letters = ['A', 'E', 'P', 'R', 'S'];
+  final _result = <String?>[null, null, null, null, null];
+  final _possibleResults = [
     ['A', 'P', 'E', 'R', 'S'],
     ['A', 'P', 'R', 'E', 'S'],
     ['A', 'S', 'P', 'E', 'R'],
@@ -62,9 +61,9 @@ class _GameState extends State<Game> {
         Wrap(
           children: List<Widget>.generate(
             5,
-                (index) => DragTarget<String>(
+            (index) => DragTarget<String>(
               builder: (context, candidateItems, rejectedItems) {
-                final currentLetter = result[index];
+                final currentLetter = _result[index];
                 return Container(
                   height: 50,
                   width: 50,
@@ -74,8 +73,8 @@ class _GameState extends State<Game> {
                       color: candidateItems.isNotEmpty
                           ? Colors.redAccent
                           : currentLetter != null && currentLetter.isNotEmpty
-                          ? Colors.greenAccent
-                          : Colors.white,
+                              ? Colors.greenAccent
+                              : Colors.white,
                     ),
                   ),
                   child: Center(
@@ -90,14 +89,15 @@ class _GameState extends State<Game> {
                 );
               },
               onAccept: (item) {
-                result.removeAt(index);
-                result.insert(index, item);
-                final element = possibleResults.firstWhereOrNull(
-                      (element) => _listEquality.equals(element, result),
-                );
-                _isWordFound = element != null;
-                _isGameFinished = result.whereNotNull().length == 5;
-                setState(() {});
+                setState(() {
+                  _result.removeAt(index);
+                  _result.insert(index, item);
+                  final element = _possibleResults.firstWhereOrNull(
+                    (element) => _listEquality.equals(element, _result),
+                  );
+                  _isWordFound = element != null;
+                  _isGameFinished = _result.whereNotNull().length == 5;
+                });
               },
             ),
           ),
@@ -106,58 +106,58 @@ class _GameState extends State<Game> {
         Wrap(
           children: List<Widget>.generate(
             5,
-                (index) {
-              final currentLetter = letters[index];
-              return result.contains(currentLetter)
+            (index) {
+              final currentLetter = _letters[index];
+              return _result.contains(currentLetter)
                   ? Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.symmetric(horizontal: 2),
-                color: Colors.white24,
-              )
+                      height: 50,
+                      width: 50,
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      color: Colors.white24,
+                    )
                   : Draggable<String>(
-                data: letters[index],
-                feedback: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent),
-                  ),
-                  child: Center(
-                    child: Text(
-                      letters[index],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
-                childWhenDragging: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  color: Colors.white24,
-                ),
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent),
-                  ),
-                  child: Center(
-                    child: Text(
-                      letters[index],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
-              );
+                      data: _letters[index],
+                      feedback: Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.greenAccent),
+                        ),
+                        child: Center(
+                          child: Text(
+                            _letters[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      childWhenDragging: Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        color: Colors.white24,
+                      ),
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.greenAccent),
+                        ),
+                        child: Center(
+                          child: Text(
+                            _letters[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    );
             },
           ),
         ),
@@ -165,7 +165,6 @@ class _GameState extends State<Game> {
     );
   }
 }
-
 
 class GamePage extends StatelessWidget {
   const GamePage({
@@ -215,159 +214,6 @@ class GamePage extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
-  late Map<Type, Action<Intent>> _actions;
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')
-      ..requestFocus();
-    _shortcuts = <LogicalKeySet, Intent>{
-      LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
-      LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-      const CheckFieldValidity(),
-    };
-    _actions = <Type, Action<Intent>>{
-      ClearIntent: ClearTextAction(
-        _controller,
-        _focusNode,
-      ),
-      CheckFieldValidity: CallbackAction(
-        onInvoke: (_) {
-          return ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                _controller.text.isEmpty
-                    ? 'Field should not be empty'
-                    : 'Field is valid',
-              ),
-            ),
-          );
-        },
-      ),
-    };
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Shortcuts(
-      shortcuts: _shortcuts,
-      child: Actions(
-        actions: _actions,
-        child: DecoratedBox(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.blue,
-                Colors.blueAccent,
-                Colors.lightBlue,
-                Colors.lightBlueAccent,
-              ],
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Image.network(
-                  'https://docs.flutter.dev/assets/images/dash/Dashatars.png',
-                  scale: 8,
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                  ),
-                  child: TextField(
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    onSubmitted: (title){
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => GamePage(name: title),
-                        ),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 3),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 3),
-                      ),
-                      labelText: 'Enter your name',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(color: Colors.white54),
-                    ),
-                    cursorColor: Colors.white,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ClearTextAction extends Action<ClearIntent> {
-  ClearTextAction(
-      this.controller,
-      this.focusNode,
-      );
-
-  final TextEditingController controller;
-  final FocusNode focusNode;
-
-  @override
-  void invoke(covariant ClearIntent intent) {
-    if (controller.text.isNotEmpty) {
-      controller.clear();
-    } else {
-      focusNode.unfocus();
-    }
-  }
-}
-
-class ClearIntent extends Intent {
-  const ClearIntent();
-}
-
-class CheckFieldValidity extends Intent {
-  const CheckFieldValidity();
-}
-
 void main() {
   runApp(const DashatarPuzzleApp());
 }
@@ -379,7 +225,7 @@ class DashatarPuzzleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: LoginPage(),
+        body: GamePage(name: '@salihgueler'),
       ),
     );
   }

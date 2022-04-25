@@ -11,7 +11,7 @@ Expanded(
         onPressed: () {
             Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const GamePage(),
+                  builder: (context) => const SizedBox.shrink(),
                 ),
             );
         },
@@ -20,7 +20,7 @@ Expanded(
 ),
 ```
 
-After this, we need a way to be able to focus on the text field. We will be using `FocusNode`s for that purpose.
+After this, you need a way to be able to focus on the text field. You will be using `FocusNode`s for that purpose.
 
 `FocusNode` is an important object to implement focusing on an item or creating a set of focusable objects. They are long-lived objects that hold the focus state and attributes. This way they can persist between builds.
 
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Now that we defined the variable, let's assign the variable. For that, let's override `initState` from the `State` class and assign the variable. Also let's `requestFocus` focus so in the beginning the field is automatically focused.
+Now that you defined the variable, let's assign the variable. For that, let's override `initState` from the `State` class and assign the variable. Also let's `requestFocus` focus so in the beginning the field is automatically focused.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-You can see that, we added a `debugLabel` property to our object and the reason is to help us debug focus related problems.
+You can see that, you added a `debugLabel` property to your object and the reason is to help us debug focus related problems.
 
 One thing to mention here is, it is advised to use `FocusNode` with `StatefulWidget`s to be able to dispose the resources in it when the widget is no longer attached to the widget tree. For disposing, let's override `dispose` function and dispose the resources from the focus node.
 
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Before we move to next step, let's add the `_focusNode` to the `TextField` under our `build` function.
+Before you move to next step, let's add the `_focusNode` to the `TextField` under your `build` function.
 
 ```dart
 

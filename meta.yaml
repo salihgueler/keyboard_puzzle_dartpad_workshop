@@ -15,15 +15,15 @@ steps:
   - name: Step 4 - Actions
     directory: step_04
     has_solution: true
-  - name: Step 5
+  - name: Step 5 - Setting up Game Page
     directory: step_05
     has_solution: true
-  - name: Step 6
+  - name: Step 6 - Game Page Actions
     directory: step_06
     has_solution: true
-  - name: Step 7
+  - name: Step 7 - Increasing the Gamification
     directory: step_07
     has_solution: true
-  - name: Step 8
+  - name: Step 8 - The End
     directory: step_08
     has_solution: false

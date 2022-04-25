@@ -12,7 +12,7 @@ In this workshop, you will be learning to implement the following concepts for _
 - Using key combinations for your shortcuts
 - Managing focus system with device keyboard
 
-To explore these topics, we will create a word puzzle that we can control with our keyboard. You will be given five letters and expected to find a 5 letter word that is defined in a given list.
+To explore these topics, you will create a word puzzle that you can control with your keyboard. You will be given five letters and expected to find a 5 letter word that is defined in a given list.
 
 A starter project is already prepared for you. All expected functionality works with the mouse. Play around with it and get used to it. By the end of the workshop, you will be able to implement all the functionality and even more with keyboard shortcuts.
 

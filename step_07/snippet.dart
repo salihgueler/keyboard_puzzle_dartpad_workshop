@@ -16,9 +16,9 @@ class _GameState extends State<Game> {
   late final FocusNode _resultFocusNode;
   late final FocusNode _lettersFocusNode;
   int _selectedIndex = 0;
-  final letters = ['A', 'E', 'P', 'R', 'S'];
-  final result = <String?>[null, null, null, null, null];
-  final possibleResults = [
+  final _letters = ['A', 'E', 'P', 'R', 'S'];
+  final _result = <String?>[null, null, null, null, null];
+  final _possibleResults = [
     ['A', 'P', 'E', 'R', 'S'],
     ['A', 'P', 'R', 'E', 'S'],
     ['A', 'S', 'P', 'E', 'R'],
@@ -38,8 +38,6 @@ class _GameState extends State<Game> {
   @override
   void dispose() {
     _focusNode.dispose();
-    _resultFocusNode.dispose();
-    _lettersFocusNode.dispose();
     super.dispose();
   }
 
@@ -66,14 +64,18 @@ class _GameState extends State<Game> {
 
   void _moveLeft() {
     if (_selectedIndex > 0) {
-      _selectedIndex--;
-      setState(() {});
+      setState(() {
+        _selectedIndex--;
+      });
     }
   }
 
   void _moveRight() {
-    _selectedIndex++;
-    setState(() {});
+    if (_selectedIndex < 4) {
+      setState(() {
+        _selectedIndex++;
+      });
+    }
   }
 
   void _moveVertically() {
@@ -89,18 +91,21 @@ class _GameState extends State<Game> {
 
   // ignore: unused_element
   void _updateItem(String item, int index) {
-    result.removeAt(index);
-    result.insert(index, item);
-    final element = possibleResults.firstWhereOrNull(
-          (element) => _listEquality.equals(element, result),
-    );
-    _isWordFound = element != null;
-    _isGameFinished = result.whereNotNull().length == 5;
-    setState(() {});
+    setState(() {
+      _result.removeAt(index);
+      _result.insert(index, item);
+      final element = _possibleResults.firstWhereOrNull(
+        (element) => _listEquality.equals(element, _result),
+      );
+
+      _isWordFound = element != null;
+      _isGameFinished = _result.whereNotNull().length == 5;
+    });
+
+    _maybeShowDialog();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void _maybeShowDialog() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (_isGameFinished) {
         showDialog(
@@ -128,6 +133,10 @@ class _GameState extends State<Game> {
         );
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FocusableActionDetector(
       shortcuts: _shortcuts,
       actions: _actions,
@@ -139,23 +148,23 @@ class _GameState extends State<Game> {
             child: Wrap(
               children: List<Widget>.generate(
                 5,
-                    (index) => Container(
+                (index) => Container(
                   height: 50,
                   width: 50,
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: _resultFocusNode.hasFocus &&
-                          _selectedIndex == index
+                              _selectedIndex == index
                           ? Colors.redAccent
-                          : result[index] != null && result[index]!.isNotEmpty
-                          ? Colors.greenAccent
-                          : Colors.white,
+                          : _result[index] != null && _result[index]!.isNotEmpty
+                              ? Colors.greenAccent
+                              : Colors.white,
                     ),
                   ),
                   child: Center(
                     child: Text(
-                      result[index] ?? '',
+                      _result[index] ?? '',
                       style: Theme.of(context)
                           .textTheme
                           .headline6
@@ -172,35 +181,35 @@ class _GameState extends State<Game> {
             child: Wrap(
               children: List<Widget>.generate(
                 5,
-                    (index) {
-                  final currentLetter = letters[index];
-                  return result.contains(currentLetter)
+                (index) {
+                  final currentLetter = _letters[index];
+                  return _result.contains(currentLetter)
                       ? Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    color: Colors.white24,
-                  )
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          color: Colors.white24,
+                        )
                       : Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      border: _lettersFocusNode.hasFocus &&
-                          _selectedIndex == index
-                          ? Border.all(color: Colors.redAccent)
-                          : Border.all(color: Colors.greenAccent),
-                    ),
-                    child: Center(
-                      child: Text(
-                        letters[index],
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  );
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            border: _lettersFocusNode.hasFocus &&
+                                    _selectedIndex == index
+                                ? Border.all(color: Colors.redAccent)
+                                : Border.all(color: Colors.greenAccent),
+                          ),
+                          child: Center(
+                            child: Text(
+                              _letters[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        );
                 },
               ),
             ),
@@ -259,159 +268,6 @@ class GamePage extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
-  late Map<Type, Action<Intent>> _actions;
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')
-      ..requestFocus();
-    _shortcuts = <LogicalKeySet, Intent>{
-      LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
-      LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-      const CheckFieldValidity(),
-    };
-    _actions = <Type, Action<Intent>>{
-      ClearIntent: ClearTextAction(
-        _controller,
-        _focusNode,
-      ),
-      CheckFieldValidity: CallbackAction(
-        onInvoke: (_) {
-          return ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                _controller.text.isEmpty
-                    ? 'Field should not be empty'
-                    : 'Field is valid',
-              ),
-            ),
-          );
-        },
-      ),
-    };
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Shortcuts(
-      shortcuts: _shortcuts,
-      child: Actions(
-        actions: _actions,
-        child: DecoratedBox(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.blue,
-                Colors.blueAccent,
-                Colors.lightBlue,
-                Colors.lightBlueAccent,
-              ],
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Image.network(
-                  'https://docs.flutter.dev/assets/images/dash/Dashatars.png',
-                  scale: 8,
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                  ),
-                  child: TextField(
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    onSubmitted: (title) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => GamePage(name: title),
-                        ),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 3),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 3),
-                      ),
-                      labelText: 'Enter your name',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(color: Colors.white54),
-                    ),
-                    cursorColor: Colors.white,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ClearTextAction extends Action<ClearIntent> {
-  ClearTextAction(
-      this.controller,
-      this.focusNode,
-      );
-
-  final TextEditingController controller;
-  final FocusNode focusNode;
-
-  @override
-  void invoke(covariant ClearIntent intent) {
-    if (controller.text.isNotEmpty) {
-      controller.clear();
-    } else {
-      focusNode.unfocus();
-    }
-  }
-}
-
-class ClearIntent extends Intent {
-  const ClearIntent();
-}
-
-class CheckFieldValidity extends Intent {
-  const CheckFieldValidity();
-}
-
 class MoveLeftIntent extends Intent {
   const MoveLeftIntent();
 }
@@ -439,7 +295,7 @@ class DashatarPuzzleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: LoginPage(),
+        body: GamePage(name: '@salihgueler'),
       ),
     );
   }

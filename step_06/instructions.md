@@ -1,10 +1,10 @@
-> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and it is focused.
+> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the the letter boxes once the app is running and it gets the initial focus.
 
-In the previous step, we added the steps to have a functioning keyboard navigation. Let's make it actually work.
+In the previous step, you added the steps to have a functioning keyboard navigation. Let's make it actually work.
 
-First, we will decide on the strategy to follow to keep track of the indexes.
+First, you will decide on the strategy to follow to keep track of the indexes.
 
-We have two sets of horizontal layout to interact with. We will keep track of the index in the horizontal position and decide on which vertical layout we belong by using `FocusNode`s.
+You have two sets of horizontal layout to interact with. You will keep track of the index in the horizontal position and decide on which vertical layout you belong by using `FocusNode`s.
 
 Let's start by defining the layout.
 
@@ -42,13 +42,13 @@ class _GameState extends State<Game> {
 }
 ```
 
-This way we can move our cursor left and right and actually add an affect to it on the screen on the UI.
+This way you can move your cursor left and right and actually add an affect to it on the screen on the UI.
 
 > 📝 New homework time! Add a way to change the border color of the box to `Colors.redAccent` when it is focused and keep it as it is when it is not focused.
 
-Next, we need to add the vertical navigation.
+Next, you need to add the vertical navigation.
 
-For that, we will add two `FocusNode`s and add them to the root widgets of the horizontal navigated widgets, which is the `Wrap` widgets.
+For that, you will add two `FocusNode`s and add them to the root widgets of the horizontal navigated widgets, which is the `Wrap` widgets.
 
 ```dart
 class _GameState extends State<Game> {
@@ -78,9 +78,9 @@ class _GameState extends State<Game> {
   }
 ```
 
-We created the `FocusNode`s as we created them before. Now we will add them to the `Wrap` widget and to make it part of the Widget tree. For that, we will use `Focus` widget. Focus is a widget that manages a `FocusNode` to allow keyboard focus to be given to this widget and its descendants.
+You created the `FocusNode`s as you created them before. Now you will add them to the `Wrap` widget and to make it part of the Widget tree. For that, you will use `Focus` widget. Focus is a widget that manages a `FocusNode` to allow keyboard focus to be given to this widget and its descendants.
 
-Let's wrap our `Wrap` widgets with Focus and assign the `FocusNode`s created for them.
+Let's wrap your `Wrap` widgets with Focus and assign the `FocusNode`s created for them.
 
 ```dart
 class _GameState extends State<Game> {
@@ -110,9 +110,9 @@ class _GameState extends State<Game> {
 }
 ```
 
-Lastly we will add our logic to focus and unfocus to the vertical elements with keyboard navigation.
+Lastly you will add your logic to focus and unfocus to the vertical elements with keyboard navigation.
 
-Flutter always expects you to focus on at least one element. But, the focus hierarchy is something that should be controlling. For making the controlling mechanism easier, `FocusNode` has helper functions called `previousFocus` and `nextFocus`. These helps you go through your focus elements without troubling you. But these are not useful in our case. We have 3 different `FocusNodes` and only want to travel between the two of them. That is why we will be using `requestFocus` and `unfocus` funcsions of the `FocusScope` and follow the rule of focusing at least one element all the time.
+Flutter always expects you to focus on at least one element. But, the focus hierarchy is something that should be controlling. For making the controlling mechanism easier, `FocusNode` has helper functions called `previousFocus` and `nextFocus`. These helps you go through your focus elements without troubling you. But these are not useful in your case. You have 3 different `FocusNodes` and only want to travel between the two of them. That is why you will be using `requestFocus` and `unfocus` funcsions of the `FocusScope` and follow the rule of focusing at least one element all the time.
 
 ```dart
 class _GameState extends State<Game> {
@@ -144,7 +144,7 @@ class _GameState extends State<Game> {
 }
 ```
 
-We removed the up and down functions and combined them into one move vertically function. It checks if one of the nodes has focus and acts accordingly.
+You removed the up and down functions and combined them into one move vertically function. It checks if one of the nodes has focus and acts accordingly.
 
 Now the current functionality looks like following:
 ![Step 6 Result](https://raw.githubusercontent.com/salihgueler/keyboard_puzzle_dartpad_workshop/main/step_06/output.gif)

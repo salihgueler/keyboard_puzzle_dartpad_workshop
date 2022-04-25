@@ -1,4 +1,4 @@
-Now that we have focusing mechanism in place, let's setup our mechanism to focus to the field with keyboard operations.
+Now that you have focusing mechanism in place, let's setup your mechanism to focus to the field with keyboard operations.
 
 Keyboard operations in Flutter split into 3 important subjects:
 
@@ -12,9 +12,9 @@ Keyboard operations in Flutter split into 3 important subjects:
 
 **Intents** are representations of actions to be triggered when a key or key combination is triggered from shortcuts.
 
-Now that we know their definitions, let's see them in action!
+Now that you know their definitions, let's see them in action!
 
-Let's start off by creating a variable to keep our shortcuts just below the `FocusNode` that we created.
+Let's start off by creating a variable to keep your shortcuts just below the `FocusNode` that you created.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-After we created the variable, we are expected to create key-value pairs for keyboard key combinations and intents.
+After you created the variable, you are expected to create key-value pairs for keyboard key combinations and intents.
 
 Let's start off by creating intents:
 
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Now let's wire them to the widget tree. For that purpose, we will be wrapping our main widget with `Shortcuts`. That widget will help us to build a communication between our keyboard and actions.
+Now let's wire them to the widget tree. For that purpose, you will be wrapping your main widget with `Shortcuts`. That widget will help us to build a communication between your keyboard and actions.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
@@ -74,4 +74,4 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Now our shortcuts are part of our page, let's make them functional!
+Now your shortcuts are part of your page, let's make them functional!
