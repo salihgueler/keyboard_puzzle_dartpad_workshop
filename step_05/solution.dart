@@ -13,7 +13,6 @@ class _GameState extends State<Game> {
   late final Map<LogicalKeySet, Intent> _shortcuts;
   late final Map<Type, Action<Intent>> _actions;
   late final FocusNode _focusNode;
-  // Should these be private as well?
   final _letters = ['A', 'E', 'P', 'R', 'S'];
   final _result = <String?>[null, null, null, null, null];
   final _possibleResults = [
@@ -68,8 +67,6 @@ class _GameState extends State<Game> {
   // ignore: unused_element
   void _updateItem(String item, int index) {
     setState(() {
-      // Should these operations be inside the setState function, rather than an
-      // empty setState function?
       final element = _possibleResults.firstWhereOrNull(
         (element) => _listEquality.equals(element, result),
       );
@@ -115,9 +112,6 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    // Should the code that launches a screen be here? Feels like it should be
-    // in separate method called from _updateItem after the game is complete.
-
     return FocusableActionDetector(
       shortcuts: _shortcuts,
       actions: _actions,

@@ -41,6 +41,10 @@ class CheckFieldValidity extends Intent {
 You can see that intents are just representations of what the user wants to do. Let's create shortcuts to represent them now:
 
 ```dart
+// Services import required to use the LogicalKeyboardKey.
+// Add this import to the top of your file with other imports
+import 'package:flutter/services.dart';
+
 class _LoginPageState extends State<LoginPage> {
   ...
   @override
@@ -48,9 +52,6 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
     _shortcuts = <LogicalKeySet, Intent>{
-      // This requires the user to "import import 'package:flutter/services.dart';"
-      // Might be good to mention the LogicalKeyboardKey stuff comes from 
-      // servies.dart and perhaps even add a section above where the user pastes that import
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): const CheckFieldValidity(),
     };

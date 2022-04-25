@@ -1,6 +1,3 @@
-// Hm, I think this snippet is actually the same as the solution. As I followed
-// along this step, I tried to do the homework but it was already completed for
-// me :)
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:collection/collection.dart';
@@ -16,12 +13,9 @@ class _GameState extends State<Game> {
   late final Map<LogicalKeySet, Intent> _shortcuts;
   late final Map<Type, Action<Intent>> _actions;
   late final FocusNode _focusNode;
-  late final FocusNode _resultFocusNode;
-  late final FocusNode _lettersFocusNode;
-  int _selectedIndex = 0;
-  final letters = ['A', 'E', 'P', 'R', 'S'];
-  final result = <String?>[null, null, null, null, null];
-  final possibleResults = [
+  final _letters = ['A', 'E', 'P', 'R', 'S'];
+  final _result = <String?>[null, null, null, null, null];
+  final _possibleResults = [
     ['A', 'P', 'E', 'R', 'S'],
     ['A', 'P', 'R', 'E', 'S'],
     ['A', 'S', 'P', 'E', 'R'],
@@ -41,8 +35,6 @@ class _GameState extends State<Game> {
   @override
   void dispose() {
     _focusNode.dispose();
-    _resultFocusNode.dispose();
-    _lettersFocusNode.dispose();
     super.dispose();
   }
 
@@ -57,53 +49,38 @@ class _GameState extends State<Game> {
     };
     _actions = <Type, Action<Intent>>{
       MoveLeftIntent: CallbackAction(onInvoke: (_) => _moveLeft()),
-      MoveRightIntent: CallbackAction(onInvoke: (_) => _moveRight()),
-      MoveDownIntent: CallbackAction(onInvoke: (_) => _moveVertically()),
-      MoveUpIntent: CallbackAction(onInvoke: (_) => _moveVertically()),
+      MoveRightIntent: CallbackAction(onInvoke: (_) =>_moveRight()),
+      MoveDownIntent: CallbackAction(onInvoke: (_) => _moveDown()),
+      MoveUpIntent: CallbackAction(onInvoke: (_) => _moveUp()),
     };
     _focusNode = FocusNode(debugLabel: 'GamePageFocusNode')..requestFocus();
-    _resultFocusNode = FocusNode(debugLabel: 'GamePageResultFocusNode');
-    _lettersFocusNode = FocusNode(debugLabel: 'GamePageLettersFocusNode')
-      ..requestFocus();
   }
 
-  void _moveLeft() {
-    if (_selectedIndex > 0) {
-      _selectedIndex--;
-      setState(() {});
-    }
-  }
+  void _moveLeft() {}
 
-  void _moveRight() {
-    _selectedIndex++;
-    setState(() {});
-  }
+  void _moveRight() {}
 
-  void _moveVertically() {
-    if (_lettersFocusNode.hasFocus) {
-      _lettersFocusNode.previousFocus();
-      _resultFocusNode.requestFocus();
-    } else {
-      _resultFocusNode.unfocus();
-      _lettersFocusNode.requestFocus();
-    }
-    setState(() {});
-  }
+  void _moveDown() {}
+
+  void _moveUp() {}
 
   // ignore: unused_element
   void _updateItem(String item, int index) {
-    result.removeAt(index);
-    result.insert(index, item);
-    final element = possibleResults.firstWhereOrNull(
-          (element) => _listEquality.equals(element, result),
-    );
-    _isWordFound = element != null;
-    _isGameFinished = result.whereNotNull().length == 5;
-    setState(() {});
+    setState(() {
+      final element = _possibleResults.firstWhereOrNull(
+            (element) => _listEquality.equals(element, result),
+      );
+
+      _result.removeAt(index);
+      _result.insert(index, item);
+      _isWordFound = element != null;
+      _isGameFinished = result.whereNotNull().length == 5;
+    });
+
+    _maybeShowDialog();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void _maybeShowDialog() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (_isGameFinished) {
         showDialog(
@@ -131,81 +108,73 @@ class _GameState extends State<Game> {
         );
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FocusableActionDetector(
       shortcuts: _shortcuts,
       actions: _actions,
       focusNode: _focusNode,
       child: Column(
         children: [
-          Focus(
-            focusNode: _resultFocusNode,
-            child: Wrap(
-              children: List<Widget>.generate(
-                5,
-                    (index) => Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: _resultFocusNode.hasFocus &&
-                          _selectedIndex == index
-                          ? Colors.redAccent
-                          : result[index] != null && result[index]!.isNotEmpty
-                          ? Colors.greenAccent
-                          : Colors.white,
-                    ),
+          Wrap(
+            children: List<Widget>.generate(
+              5,
+                  (index) => Container(
+                height: 50,
+                width: 50,
+                margin: const EdgeInsets.symmetric(horizontal: 2),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: result[index] != null && result[index]!.isNotEmpty
+                        ? Colors.greenAccent
+                        : Colors.white,
                   ),
-                  child: Center(
-                    child: Text(
-                      result[index] ?? '',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
+                ),
+                child: Center(
+                  child: Text(
+                    result[index] ?? '',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        ?.copyWith(color: Colors.white),
                   ),
                 ),
               ),
             ),
           ),
           const SizedBox(height: 50),
-          Focus(
-            focusNode: _lettersFocusNode,
-            child: Wrap(
-              children: List<Widget>.generate(
-                5,
-                    (index) {
-                  final currentLetter = letters[index];
-                  return result.contains(currentLetter)
-                      ? Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    color: Colors.white24,
-                  )
-                      : Container(
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      border: _lettersFocusNode.hasFocus &&
-                          _selectedIndex == index
-                          ? Border.all(color: Colors.redAccent)
-                          : Border.all(color: Colors.greenAccent),
+          Wrap(
+            children: List<Widget>.generate(
+              5,
+                  (index) {
+                final currentLetter = letters[index];
+                return result.contains(currentLetter)
+                    ? Container(
+                  height: 50,
+                  width: 50,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  color: Colors.white24,
+                )
+                    : Container(
+                  height: 50,
+                  width: 50,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.greenAccent),
+                  ),
+                  child: Center(
+                    child: Text(
+                      letters[index],
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          ?.copyWith(color: Colors.white),
                     ),
-                    child: Center(
-                      child: Text(
-                        letters[index],
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],

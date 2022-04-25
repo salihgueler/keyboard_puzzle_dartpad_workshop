@@ -28,6 +28,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -60,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                 horizontal: 32,
               ),
               child: TextField(
+                controller: _controller,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red, width: 3),
@@ -87,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const GamePage(),
+                    builder: (context) => GamePage(name: _controller.text),
                   ),
                 );
               },
@@ -101,7 +116,12 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class GamePage extends StatelessWidget {
-  const GamePage({Key? key}) : super(key: key);
+  const GamePage({
+    required this.name,
+    Key? key,
+  }) : super(key: key);
+
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +144,7 @@ class GamePage extends StatelessWidget {
             const Spacer(flex: 1),
             Center(
               child: Text(
-                // Should this actually show the name the user typed in?
-                'Welcome %NAME',
+                'Welcome $name',
                 style: Theme.of(context)
                     .textTheme
                     .headline4
@@ -204,7 +223,7 @@ class _GameState extends State<Game> {
         Wrap(
           children: List<Widget>.generate(
             5,
-                (index) => DragTarget<String>(
+            (index) => DragTarget<String>(
               builder: (context, candidateItems, rejectedItems) {
                 final currentLetter = result[index];
                 return Container(
@@ -216,8 +235,8 @@ class _GameState extends State<Game> {
                       color: candidateItems.isNotEmpty
                           ? Colors.redAccent
                           : currentLetter != null && currentLetter.isNotEmpty
-                          ? Colors.greenAccent
-                          : Colors.white,
+                              ? Colors.greenAccent
+                              : Colors.white,
                     ),
                   ),
                   child: Center(
@@ -235,7 +254,7 @@ class _GameState extends State<Game> {
                 result.removeAt(index);
                 result.insert(index, item);
                 final element = possibleResults.firstWhereOrNull(
-                      (element) => _listEquality.equals(element, result),
+                  (element) => _listEquality.equals(element, result),
                 );
                 _isWordFound = element != null;
                 _isGameFinished = result.whereNotNull().length == 5;
@@ -248,58 +267,58 @@ class _GameState extends State<Game> {
         Wrap(
           children: List<Widget>.generate(
             5,
-                (index) {
+            (index) {
               final currentLetter = letters[index];
               return result.contains(currentLetter)
                   ? Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.symmetric(horizontal: 2),
-                color: Colors.white24,
-              )
+                      height: 50,
+                      width: 50,
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      color: Colors.white24,
+                    )
                   : Draggable<String>(
-                data: letters[index],
-                feedback: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent),
-                  ),
-                  child: Center(
-                    child: Text(
-                      letters[index],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
-                childWhenDragging: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  color: Colors.white24,
-                ),
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent),
-                  ),
-                  child: Center(
-                    child: Text(
-                      letters[index],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
-              );
+                      data: letters[index],
+                      feedback: Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.greenAccent),
+                        ),
+                        child: Center(
+                          child: Text(
+                            letters[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      childWhenDragging: Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        color: Colors.white24,
+                      ),
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.greenAccent),
+                        ),
+                        child: Center(
+                          child: Text(
+                            letters[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    );
             },
           ),
         ),

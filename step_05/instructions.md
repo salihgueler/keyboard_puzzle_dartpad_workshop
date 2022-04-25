@@ -27,8 +27,8 @@ class _GameState extends State<Game> {
 }
 ```
 
-<!-- Hm, I actually missed this tip at first, since the background of BlockQuotes looks very similar to the codebase. Maybe put this above the codeblock after the "let's create our keyboard shortcuts" line? -->
-> Here is a task for you! You can create your own Intents just like we did before.
+
+> 📝 Here is a task for you! You can create your own Intents just like we did before.
 
 
 Next step is to create the actions to connect our shortcuts.  
@@ -67,8 +67,8 @@ For binding the shortcuts and actions. We will learn a new widget. Before we wer
 
 Let's add that to our `Game` widget. We will use only `shortcuts`, `actions` and `focusNode`  properties but, there are many more useful properties for us to use.
 
-<!-- I saw this one, but once again it kind of blends in with the codeblock below it. Maybe remove the BlockQUote background and add an Emoji instead? -->
-> Another homework for you! Create a focus node, but do not forget to dispose the resources afterwards!
+
+> 📝 Another homework for you! Create a focus node, but do not forget to dispose the resources afterwards!
 
 ```dart
 @override

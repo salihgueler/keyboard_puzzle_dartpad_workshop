@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Hmmm, is this solution working for you in DartPad? I worry I might be running
-// into a bug :/ I cannot use Escape to clear text, and when I hit Control +
-// Enter it simply moves to the next page?
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -12,10 +9,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
-  late Map<Type, Action<Intent>> _actions;
-  late TextEditingController _controller;
+  late final FocusNode _focusNode;
+  late final Map<LogicalKeySet, Intent> _shortcuts;
+  late final Map<Type, Action<Intent>> _actions;
+  late final TextEditingController _controller;
 
   @override
   void initState() {

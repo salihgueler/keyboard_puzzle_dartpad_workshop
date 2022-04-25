@@ -27,8 +27,6 @@ class _GameState extends State<Game> {
   ...
   void _moveLeft() {
     if (_selectedIndex > 0) {
-      // Put the modifications inside setState? Both work fine, but I think 
-      // this is the intended usage?
       setState(() {
         _selectedIndex--;
       });
@@ -46,8 +44,7 @@ class _GameState extends State<Game> {
 
 This way we can move our cursor left and right and actually add an affect to it on the screen on the UI.
 
-<!-- Once again, maybe an emoji or something to call this blockquote out a bit more or distinguish it from the Code blocks? -->
-> New homework time! Add a way to change the border color of the box to `Colors.redAccent` when it is focused and keep it as it is when it is not focused.
+> 📝 New homework time! Add a way to change the border color of the box to `Colors.redAccent` when it is focused and keep it as it is when it is not focused.
 
 Next, we need to add the vertical navigation.
 
