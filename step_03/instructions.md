@@ -48,6 +48,9 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
     _shortcuts = <LogicalKeySet, Intent>{
+      // This requires the user to "import import 'package:flutter/services.dart';"
+      // Might be good to mention the LogicalKeyboardKey stuff comes from 
+      // servies.dart and perhaps even add a section above where the user pastes that import
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): const CheckFieldValidity(),
     };
@@ -56,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Now let's wire them to the widget tree, before we go to the next step. For that purpose, we will be wrapping our main widget with `Shortcuts`. That widget will help us to build a communication between our keyboard and actions.
+Now let's wire them to the widget tree. For that purpose, we will be wrapping our main widget with `Shortcuts`. That widget will help us to build a communication between our keyboard and actions.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {

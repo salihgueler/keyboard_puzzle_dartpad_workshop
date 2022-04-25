@@ -92,7 +92,7 @@ class _GameState extends State<Game> {
     result.removeAt(index);
     result.insert(index, item);
     final element = possibleResults.firstWhereOrNull(
-      (element) => _listEquality.equals(element, result),
+          (element) => _listEquality.equals(element, result),
     );
     _isWordFound = element != null;
     _isGameFinished = result.whereNotNull().length == 5;
@@ -281,7 +281,7 @@ class _LoginPageState extends State<LoginPage> {
     _shortcuts = <LogicalKeySet, Intent>{
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-          const CheckFieldValidity(),
+      const CheckFieldValidity(),
     };
     _actions = <Type, Action<Intent>>{
       ClearIntent: ClearTextAction(
@@ -387,9 +387,9 @@ class _LoginPageState extends State<LoginPage> {
 
 class ClearTextAction extends Action<ClearIntent> {
   ClearTextAction(
-    this.controller,
-    this.focusNode,
-  );
+      this.controller,
+      this.focusNode,
+      );
 
   final TextEditingController controller;
   final FocusNode focusNode;

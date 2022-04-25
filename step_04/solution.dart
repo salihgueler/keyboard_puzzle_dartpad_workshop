@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// Hmmm, is this solution working for you in DartPad? I worry I might be running
+// into a bug :/ I cannot use Escape to clear text, and when I hit Control +
+// Enter it simply moves to the next page?
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 

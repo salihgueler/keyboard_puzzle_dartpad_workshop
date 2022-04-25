@@ -7,6 +7,9 @@ We can add the actions in two different ways. As you remember from the previous 
 We can either create our own Action type or, use `CallbackAction` and pass our variable. Let's learn about both of them now.
 
 ```dart
+// Defines an action to remove the texts bound to the `TextEditingController` 
+// if it is not empty and if it is empty, it unfocuses from the field. You can 
+// see that we bound this action into our `ClearIntent`.
 class ClearTextAction extends Action<ClearIntent> {
   ClearTextAction(
       this.controller,
@@ -16,6 +19,8 @@ class ClearTextAction extends Action<ClearIntent> {
   final TextEditingController controller;
   final FocusNode focusNode;
 
+  // The `invoke` function is triggered each time the related intent is 
+  // triggered by the Shortcuts widget.
   @override
   void invoke(covariant ClearIntent intent) {
     if (controller.text.isNotEmpty) {
@@ -27,9 +32,7 @@ class ClearTextAction extends Action<ClearIntent> {
 }
 ```
 
-The class above defines our action to remove the texts bound to the `TextEditingController` if it is not empty and if it is empty, it unfocuses from the field. You can see that we bound this action into our `ClearIntent` to define which intent should it work with.
-
-`invoke` function is triggered each time the related intent is triggered by the shortcuts. But, our widget tree still does not know which actions are available for the page that we are in. For that purpose, we will use `Actions` widget and pass this action into it.
+But, our widget tree still does not know which actions are available for the page that we are in. For that purpose, we will use `Actions` widget and pass this action into it.
 
 First let's create our map like we did with shortcuts.
 
@@ -57,6 +60,9 @@ class _LoginPageState extends State<LoginPage> {
           const CheckFieldValidity(),
     };
     _actions = <Type, Action<Intent>>{
+      // Two problems here: We don't have a TextEditingController _controller 
+      // at this point, and this ClearTextAction requires a second 
+      // parameter: _focusNode. 
       ClearIntent: ClearTextAction(_controller),
     };
   }
@@ -83,9 +89,10 @@ class _LoginPageState extends State<LoginPage> {
 
 You can see that under the `Shortcuts` now we have an `Actions` widget to call our actions from. It accepts a map of actions with intents to be able to use them.
 
+<!-- The code won't quite run at this point because of the problems mentioned above. It'd be good to prompt the user to add a TextEditingController themselves or with explicit instruction. -->
 If you run the application now, you can see that with the Escape button click, the text is cleared from the field.
 
-Let's learn about the second way of creating an action.
+Let's learn about the second way of creating an action using a `CallbackAction`.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {

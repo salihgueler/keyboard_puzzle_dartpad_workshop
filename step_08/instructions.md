@@ -1,4 +1,4 @@
-CONGRATULATIONS!
+# Congratulations!
 
 You created a whole new keyboard navigation system for your application and gave your users a chance to play your game with keyboard shortcuts.
 
