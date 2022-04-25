@@ -9,8 +9,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
+  late final FocusNode _focusNode;
+  late final Map<LogicalKeySet, Intent> _shortcuts;
+  late final TextEditingController _controller;
 
   @override
   void initState() {
@@ -21,11 +22,13 @@ class _LoginPageState extends State<LoginPage> {
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
       const CheckFieldValidity(),
     };
+    _controller = TextEditingController();
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -64,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: TextField(
                   focusNode: _focusNode,
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red, width: 3),

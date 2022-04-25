@@ -3,16 +3,16 @@ name: Creating a Keyboard Oriented Puzzle Game for Flutter
 type: flutter
 
 steps:
-  - name: Step 1
+  - name: Step 1 - Introduction
     directory: step_01
     has_solution: false
-  - name: Step 2
+  - name: Step 2 - Adding a new FocusNode
     directory: step_02
     has_solution: true
-  - name: Step 3
+  - name: Step 3 - Intents and Shortcuts
     directory: step_03
     has_solution: true
-  - name: Step 4
+  - name: Step 4 - Actions
     directory: step_04
     has_solution: true
   - name: Step 5

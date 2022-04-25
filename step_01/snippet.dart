@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: TextField(
                 controller: _controller,
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red, width: 3),
@@ -171,9 +172,9 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
-  final letters = ['A', 'E', 'P', 'R', 'S'];
-  final result = <String?>[null, null, null, null, null];
-  final possibleResults = [
+  final _letters = ['A', 'E', 'P', 'R', 'S'];
+  final _result = <String?>[null, null, null, null, null];
+  final _possibleresults = [
     ['A', 'P', 'E', 'R', 'S'],
     ['A', 'P', 'R', 'E', 'S'],
     ['A', 'S', 'P', 'E', 'R'],
@@ -225,7 +226,7 @@ class _GameState extends State<Game> {
             5,
             (index) => DragTarget<String>(
               builder: (context, candidateItems, rejectedItems) {
-                final currentLetter = result[index];
+                final currentLetter = _result[index];
                 return Container(
                   height: 50,
                   width: 50,
@@ -251,14 +252,15 @@ class _GameState extends State<Game> {
                 );
               },
               onAccept: (item) {
-                result.removeAt(index);
-                result.insert(index, item);
-                final element = possibleResults.firstWhereOrNull(
-                  (element) => _listEquality.equals(element, result),
-                );
-                _isWordFound = element != null;
-                _isGameFinished = result.whereNotNull().length == 5;
-                setState(() {});
+                setState(() {
+                  _result.removeAt(index);
+                  _result.insert(index, item);
+                  final element = _possibleresults.firstWhereOrNull(
+                        (element) => _listEquality.equals(element, _result),
+                  );
+                  _isWordFound = element != null;
+                  _isGameFinished = _result.whereNotNull().length == 5;
+                });
               },
             ),
           ),
@@ -268,8 +270,8 @@ class _GameState extends State<Game> {
           children: List<Widget>.generate(
             5,
             (index) {
-              final currentLetter = letters[index];
-              return result.contains(currentLetter)
+              final currentLetter = _letters[index];
+              return _result.contains(currentLetter)
                   ? Container(
                       height: 50,
                       width: 50,
@@ -277,7 +279,7 @@ class _GameState extends State<Game> {
                       color: Colors.white24,
                     )
                   : Draggable<String>(
-                      data: letters[index],
+                      data: _letters[index],
                       feedback: Container(
                         height: 50,
                         width: 50,
@@ -287,7 +289,7 @@ class _GameState extends State<Game> {
                         ),
                         child: Center(
                           child: Text(
-                            letters[index],
+                            _letters[index],
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6
@@ -310,7 +312,7 @@ class _GameState extends State<Game> {
                         ),
                         child: Center(
                           child: Text(
-                            letters[index],
+                            _letters[index],
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6

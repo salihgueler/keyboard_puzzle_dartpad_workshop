@@ -1,4 +1,4 @@
-> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and it is focused.
+> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and double check if it is focused.
 
 Now that we have set up our shortcuts. Let's add the actions for it.
 
@@ -12,9 +12,9 @@ We can either create our own Action type or, use `CallbackAction` and pass our v
 // see that we bound this action into our `ClearIntent`.
 class ClearTextAction extends Action<ClearIntent> {
   ClearTextAction(
-      this.controller,
-      this.focusNode,
-      );
+    this.controller,
+    this.focusNode,
+  );
 
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -38,9 +38,9 @@ First let's create our map like we did with shortcuts.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
-  late Map<Intent, Action<Intent>> _actions;
+  late final FocusNode _focusNode;
+  late final Map<LogicalKeySet, Intent> _shortcuts;
+  late final Map<Intent, Action<Intent>> _actions;
   ...
 }
 ```
@@ -60,10 +60,10 @@ class _LoginPageState extends State<LoginPage> {
           const CheckFieldValidity(),
     };
     _actions = <Type, Action<Intent>>{
-      // Two problems here: We don't have a TextEditingController _controller 
-      // at this point, and this ClearTextAction requires a second 
-      // parameter: _focusNode. 
-      ClearIntent: ClearTextAction(_controller),
+      ClearIntent: ClearTextAction(
+        _controller,
+        _focusNode,
+      ),
     };
   }
   ...
@@ -89,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
 
 You can see that under the `Shortcuts` now we have an `Actions` widget to call our actions from. It accepts a map of actions with intents to be able to use them.
 
-<!-- The code won't quite run at this point because of the problems mentioned above. It'd be good to prompt the user to add a TextEditingController themselves or with explicit instruction. -->
 If you run the application now, you can see that with the Escape button click, the text is cleared from the field.
 
 Let's learn about the second way of creating an action using a `CallbackAction`.

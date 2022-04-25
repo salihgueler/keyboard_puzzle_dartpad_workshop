@@ -8,13 +8,26 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
-  late FocusNode _focusNode;
+  late final FocusNode _focusNode;
+  late final TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')..requestFocus();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')
+      ..requestFocus();
   }
 
   @override
@@ -56,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: TextField(
                 focusNode: _focusNode,
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red, width: 3),
@@ -82,7 +96,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
 
 void main() {
   runApp(const DashatarPuzzleApp());

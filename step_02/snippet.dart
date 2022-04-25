@@ -8,6 +8,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -40,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                 horizontal: 32,
               ),
               child: TextField(
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red, width: 3),

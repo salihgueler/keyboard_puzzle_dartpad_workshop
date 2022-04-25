@@ -18,8 +18,8 @@ Let's start off by creating a variable to keep our shortcuts just below the `Foc
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
-  late Map<LogicalKeySet, Intent> _shortcuts;
+  late final FocusNode _focusNode;
+  late final Map<LogicalKeySet, Intent> _shortcuts;
   ...
 }
 ```

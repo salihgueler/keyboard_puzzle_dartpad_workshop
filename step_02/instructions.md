@@ -28,7 +28,7 @@ Let's add a `FocusNode` at the `_LoginPageState` class level like the following:
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
-  late FocusNode _focusNode;
+  late final FocusNode _focusNode;
   ...
 }
 ```
@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
             ...
             TextField(
               focusNode: _focusNode,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.red, width: 3),
