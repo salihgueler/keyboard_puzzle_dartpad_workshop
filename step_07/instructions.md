@@ -2,8 +2,9 @@ You might realise that you have a function called `_updateItem` that is not refe
 
 Let's create a mechanism to select a letter and move it up.
 
-> Homework time! Add a new keyboard shortcut for space key, an intent and an action to be able to accommodate the selecting mechanism that you are going to be learning below.
-> Hint: Action can be created with `CallbackAction`, name of the intent will be `SelectLetterIntent`. Function to be called will be named as `_selectMovingElement`.
+> 📝 Homework! Add a new keyboard shortcut for space key, an intent and an action to be able to accommodate the selecting mechanism that you are going to be learning below.
+
+Hint: Action can be created with `CallbackAction`, name of the intent will be `SelectLetterIntent`. Function to be called will be named as `_selectMovingElement`.
 
 After you created everything, it is time to build the elements that run your gaming mechanism.
 
