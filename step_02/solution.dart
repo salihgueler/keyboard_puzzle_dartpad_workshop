@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // ignore: unused_import, unnecessary_import
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,23 +16,13 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
     _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')
       ..requestFocus();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     _focusNode.dispose();
     super.dispose();
   }

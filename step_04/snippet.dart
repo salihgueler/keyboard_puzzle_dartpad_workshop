@@ -17,22 +17,18 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
+    _controller = TextEditingController();
     _shortcuts = <LogicalKeySet, Intent>{
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
-          const CheckFieldValidity(),
-      // TODO #2: Bind the Enter key to the SubmitFieldIntent
+      const CheckFieldValidity(),
     };
-
-    // TODO #3: Bind the SubmitFieldIntent to a CallbackAction that removes all text from the text field.
-    // Hint: Use _controller.clear() to remove all text from the TextField!
-    _controller = TextEditingController();
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -71,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: TextField(
                   focusNode: _focusNode,
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red, width: 3),
@@ -106,8 +103,6 @@ class ClearIntent extends Intent {
 class CheckFieldValidity extends Intent {
   const CheckFieldValidity();
 }
-
-// TODO #1: Add a new Intent called SubmitFieldIntent
 
 void main() {
   runApp(const DashatarPuzzleApp());

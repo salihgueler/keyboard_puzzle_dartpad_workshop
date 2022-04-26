@@ -16,25 +16,13 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')
+      ..requestFocus();
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    super.dispose();
-  }
-
-  // Multiple InitStates in this snippet. Throws errors.
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')
-      ..requestFocus();
-  }
-
-  // Multiple Disposes in this snippet. Throws errors.
-  @override
-  void dispose() {
     _focusNode.dispose();
     super.dispose();
   }

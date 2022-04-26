@@ -17,18 +17,18 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
+    _controller = TextEditingController();
     _shortcuts = <LogicalKeySet, Intent>{
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
           const CheckFieldValidity(),
     };
-    _controller = TextEditingController();
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
