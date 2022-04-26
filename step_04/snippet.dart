@@ -21,7 +21,11 @@ class _LoginPageState extends State<LoginPage> {
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
           const CheckFieldValidity(),
+      // TODO #2: Bind the Enter key to the SubmitFieldIntent
     };
+
+    // TODO #3: Bind the SubmitFieldIntent to a CallbackAction that removes all text from the text field.
+    // Hint: Use _controller.clear() to remove all text from the TextField!
     _controller = TextEditingController();
   }
 
@@ -102,6 +106,8 @@ class ClearIntent extends Intent {
 class CheckFieldValidity extends Intent {
   const CheckFieldValidity();
 }
+
+// TODO #1: Add a new Intent called SubmitFieldIntent
 
 void main() {
   runApp(const DashatarPuzzleApp());

@@ -1,6 +1,10 @@
+# Game Page Actions
+
 > REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the the letter boxes once the app is running and it gets the initial focus.
 
 In the previous step, you added the steps to have a functioning keyboard navigation. Let's make it actually work.
+
+## Horizontal Navigation
 
 First, you will decide on the strategy to follow to keep track of the indexes.
 
@@ -45,6 +49,8 @@ class _GameState extends State<Game> {
 This way you can move your cursor left and right and actually add an affect to it on the screen on the UI.
 
 > 📝 New homework time! Add a way to change the border color of the box to `Colors.redAccent` when it is focused and keep it as it is when it is not focused.
+
+## Vertical Navigation
 
 Next, you need to add the vertical navigation.
 

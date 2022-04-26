@@ -130,6 +130,7 @@ class _GameState extends State<Game> {
                   width: 50,
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
+                    // TODO #1: Update the Border to display `Colors.redAccent` when the _resultsFocusNode is focused and the local index matches the _selectedIndex.
                     border: Border.all(
                       color:
                           _result[index] != null && _result[index]!.isNotEmpty

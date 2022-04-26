@@ -1,3 +1,5 @@
+# Adding a new FocusNode
+
 We will start off with the `LoginPage` widget. At the moment, the widget contains a nice Dash image, a `TextField` and an `ElevatedButton` inside a `Column` .
 
 Users are expected to write their names to move to the next page and the control mechanism only works with a button click at the moment.
@@ -33,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Now that you defined the variable, let's assign the variable. For that, let's override `initState` from the `State` class and assign the variable. Also let's `requestFocus` focus so in the beginning the field is automatically focused.
+Now that you defined the variable, let's assign the variable. For that, let's override `initState` from the `State` class and assign the variable. Also let's `requestFocus` so in the beginning the field is automatically focused.
 
 ```dart
 class _LoginPageState extends State<LoginPage> {
@@ -59,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 ```
 
-Before you move to next step, let's add the `_focusNode` to the `TextField` under your `build` function.
+Before you move to the next step, let's add the `_focusNode` to the `TextField` under your `build` function.
 
 ```dart
 

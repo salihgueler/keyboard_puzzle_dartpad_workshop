@@ -1,3 +1,5 @@
+# Actions
+
 > REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the application output once the app is running and double check if it is focused.
 
 Now that you have set up your shortcuts. Let's add the actions for it.
@@ -5,6 +7,10 @@ Now that you have set up your shortcuts. Let's add the actions for it.
 You can add the actions in two different ways. As you remember from the previous page, Actions allow for the definition of operations that the application can perform by invoking them with an Intent.
 
 You can either create your own Action type or, use `CallbackAction` and pass your variable. Let's learn about both of them now.
+
+## Create your own Action type
+
+You can create your own type of action by extending the `Action` class.
 
 ```dart
 // Defines an action to remove the texts bound to the `TextEditingController` 
@@ -90,6 +96,8 @@ class _LoginPageState extends State<LoginPage> {
 You can see that under the `Shortcuts` now you have an `Actions` widget to call your actions from. It accepts a map of actions with intents to be able to use them.
 
 If you run the application now, you can see that with the Escape button click, the text is cleared from the field.
+
+## CallbackAction
 
 Let's learn about the second way of creating an action using a `CallbackAction`.
 
