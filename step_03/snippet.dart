@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // ignore: unused_import, unnecessary_import
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  // Multiple InitStates in this snippet. Throws errors.
   @override
   void initState() {
     super.initState();
@@ -30,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       ..requestFocus();
   }
 
+  // Multiple Disposes in this snippet. Throws errors.
   @override
   void dispose() {
     _focusNode.dispose();

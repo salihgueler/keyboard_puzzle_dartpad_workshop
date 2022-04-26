@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; //ignore: unused_import, unnecessary_import
 import 'package:collection/collection.dart';
 
 class Game extends StatefulWidget {
@@ -9,6 +10,7 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
+  // TODO #2: Define a focus node. Create it in initState, clean up in dispose!
   final _letters = ['A', 'E', 'P', 'R', 'S'];
   final _result = <String?>[null, null, null, null, null];
   final _possibleResults = [
@@ -213,6 +215,8 @@ class GamePage extends StatelessWidget {
     );
   }
 }
+
+// TODO #1: Create the MoveLeftIntent, MoveRightIntent, MoveUpIntent, and MoveDownIntent classes
 
 void main() {
   runApp(const DashatarPuzzleApp());

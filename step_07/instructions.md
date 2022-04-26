@@ -1,3 +1,5 @@
+# Increasing the Gamification
+
 You might realise that you have a function called `_updateItem` that is not referenced yet. The reason: that function controls the game mechanism for your project.
 
 Let's create a mechanism to select a letter and move it up.
