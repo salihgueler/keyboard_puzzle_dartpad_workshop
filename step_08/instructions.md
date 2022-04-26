@@ -14,4 +14,4 @@ Good luck and enjoy your game!
 
 ---
 
-This workshop was authored by Muhammed Salih Guler(@salihgueler), feel free to reach out via DM over Twitter for questions!.
+This workshop was authored by Muhammed Salih Guler([@salihgueler](https://twitter.com/salihgueler)), feel free to reach out via DM over Twitter for questions!.
