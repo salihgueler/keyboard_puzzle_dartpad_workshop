@@ -41,7 +41,7 @@ Now that you defined the variable, let's assign the variable. For that, let's ov
 class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
-    super.initState();
+    ...
     _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode')..requestFocus();
   }
 }
@@ -55,6 +55,7 @@ One thing to mention here is, it is advised to use `FocusNode` with `StatefulWid
 class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
+    ...
     _focusNode.dispose();
     super.dispose();
   }
@@ -76,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
             ...
             TextField(
+              controller: _controller,
               focusNode: _focusNode,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(

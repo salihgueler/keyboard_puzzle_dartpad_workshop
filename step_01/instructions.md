@@ -16,7 +16,7 @@ To explore these topics, you will create a word puzzle that you can control with
 
 A starter project is already prepared for you. All expected functionality works with the mouse. Play around with it and get used to it. By the end of the workshop, you will be able to implement all the functionality and even more with keyboard shortcuts.
 
-> DISCLAIMER: For the focus system and keyboard shortcuts to be working properly, it is advised to use a Flutter application on your own device. You can still continue this workshop with Dartpad, but please be sure to click at the app area at least once to initiate the first focus.
+> DISCLAIMER: For the focus system and keyboard shortcuts to be working properly, it is advised to use a Flutter application on your own device. You can still continue this workshop with Dartpad, but please be sure to click at the app area at least once to initiate the first focus and also acknowledge that there might be some [issues](https://github.com/dart-lang/dart-pad/issues/2217).
 
 If you are ready, let's go!
 

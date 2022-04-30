@@ -16,8 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
     _controller = TextEditingController();
+    _focusNode = FocusNode(debugLabel: 'LoginPageNameFieldFocusNode');
     _shortcuts = <LogicalKeySet, Intent>{
       LogicalKeySet(LogicalKeyboardKey.escape): const ClearIntent(),
       LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
@@ -52,12 +52,9 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
+            const Expanded(
               flex: 4,
-              child: Image.network(
-                'https://docs.flutter.dev/assets/images/dash/Dashatars.png',
-                scale: 8,
-              ),
+              child: FlutterLogo(),
             ),
             Expanded(
               flex: 2,
@@ -66,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   horizontal: 32,
                 ),
                 child: TextField(
+                  controller: _controller,
                   focusNode: _focusNode,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(

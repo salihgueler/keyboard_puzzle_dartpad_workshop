@@ -40,12 +40,9 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
+          const Expanded(
             flex: 4,
-            child: Image.network(
-              'https://docs.flutter.dev/assets/images/dash/Dashatars.png',
-              scale: 8,
-            ),
+            child: FlutterLogo(),
           ),
           Expanded(
             flex: 2,
@@ -54,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 horizontal: 32,
               ),
               child: TextField(
+                controller: _controller,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(

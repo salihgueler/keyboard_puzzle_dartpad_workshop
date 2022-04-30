@@ -14,7 +14,7 @@ You can create your own type of action by extending the `Action` class.
 
 ```dart
 // Defines an action to remove the texts bound to the `TextEditingController` 
-// if it is not empty and if it is empty, it unfocuses from the field. You can 
+// if it is not empty. And if the text is empty, it unfocuses from the field. You can 
 // see that you bound this action into your `ClearIntent`.
 class ClearTextAction extends Action<ClearIntent> {
   ClearTextAction(
@@ -46,7 +46,7 @@ First let's create your map like you did with shortcuts.
 class _LoginPageState extends State<LoginPage> {
   late final FocusNode _focusNode;
   late final Map<LogicalKeySet, Intent> _shortcuts;
-  late final Map<Intent, Action<Intent>> _actions;
+  late final Map<Type, Action<Intent>> _actions;
   ...
 }
 ```
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       CheckFieldValidity: CallbackAction(
         onInvoke: (_) {
-          ScaffoldMessenger.of(context).showSnackBar(
+          return ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
                 _controller.text.isEmpty
