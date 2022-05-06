@@ -140,4 +140,4 @@ Now that you have what you need. Let's move on to the game page to play the game
 
 >📝 Homework time! Now that you know, how to do keyboard shortcuts functioning, add a new intent called `SubmitFieldIntent` for `Enter` keyboard key. You will use it to navigate to the next Game Page.
 
-<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_04/instructions.md&dt=/intro&tid=UA-228112532-1" style="width: 1px; height: 1px"/>
+<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_04/instructions.md&dt=/step_04&tid=UA-228112532-1" style="width: 1px; height: 1px"/>

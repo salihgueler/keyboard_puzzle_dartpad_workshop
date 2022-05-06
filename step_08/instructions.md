@@ -16,4 +16,4 @@ Good luck and enjoy your game!
 
 This workshop was authored by Muhammed Salih Guler([@salihgueler](https://twitter.com/salihgueler)), feel free to reach out via DM over Twitter for questions!.
 
-<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_08/instructions.md&dt=/intro&tid=UA-228112532-1" style="width: 1px; height: 1px"/>
+<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_08/instructions.md&dt=/step_08&tid=UA-228112532-1" style="width: 1px; height: 1px"/>

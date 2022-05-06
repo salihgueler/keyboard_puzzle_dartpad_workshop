@@ -105,4 +105,4 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 ```
-<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_02/instructions.md&dt=/intro&tid=UA-228112532-1" style="width: 1px; height: 1px"/>
+<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_02/instructions.md&dt=/step_02&tid=UA-228112532-1" style="width: 1px; height: 1px"/>
