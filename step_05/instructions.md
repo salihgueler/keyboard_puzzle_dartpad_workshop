@@ -1,6 +1,6 @@
 # Set up the Game Page
 
-> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the the letter boxes once the app is running and it gets the initial focus.
+> REMINDER: If you are doing this workshop on the Dartpad website, be sure to click on the letter boxes once the app is running and it gets the initial focus.
 
 Now that you have the the login page ready. It is time to clean up the game page and enable the keyboard navigation on it. 
 

@@ -2,7 +2,7 @@
 
 You created a whole new keyboard navigation system for your application and gave your users a chance to play your game with keyboard shortcuts.
 
-As next step here what you can do to practice further
+As next step here are some suggestiong that you can do on your own to practice further:
 
 - Add a textfield check with submission
 - Reset the game at any point with ESC key

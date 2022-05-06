@@ -195,10 +195,12 @@ class _GameState extends State<Game> {
                           width: 50,
                           margin: const EdgeInsets.symmetric(horizontal: 2),
                           decoration: BoxDecoration(
-                            border: _lettersFocusNode.hasFocus &&
-                                    _selectedIndex == index
-                                ? Border.all(color: Colors.redAccent)
-                                : Border.all(color: Colors.greenAccent),
+                            border: Border.all(
+                              color: _lettersFocusNode.hasFocus &&
+                                      _selectedIndex == index
+                                  ? Colors.redAccent
+                                  : Colors.greenAccent,
+                            ),
                           ),
                           child: Center(
                             child: Text(

@@ -136,7 +136,7 @@ class _GameState extends State<Game> {
     ...
   }
 
-  void _moverVertically() {
+  void _moveVertically() {
     if (_lettersFocusNode.hasFocus) {
       _lettersFocusNode.unfocus();
       _resultFocusNode.requestFocus();
