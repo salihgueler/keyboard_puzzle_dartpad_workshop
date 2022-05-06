@@ -68,7 +68,7 @@ class _GameState extends State<Game> {
 
   void _selectMovingElement() {
     if (_resultFocusNode.hasFocus) {
-      _updateItem(letters[_movingIndex], _selectedIndex);
+      _updateItem(_letters[_movingIndex], _selectedIndex);
       _movingIndex = -1;
     } else {
       if (_movingIndex == _selectedIndex) {
