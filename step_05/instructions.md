@@ -87,3 +87,5 @@ Widget build(BuildContext context) {
 ```
 
 Now you have everything setup for your system, after removing all the Drag and Drop related stuff, you can see that your app is idle. But you will fix it in the next step.
+
+<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_05/instructions.md&dt=/intro&tid=UA-228112532-1" style="width: 1px; height: 1px"/>

@@ -41,3 +41,5 @@ If you five letters to the system, you should be seeing either success or failur
 ![Step 7 Result](https://raw.githubusercontent.com/salihgueler/keyboard_puzzle_dartpad_workshop/main/step_07/output.gif)
 
 > 📝 Last homework! Add a keyboard shortcut to control the behavior of the dialog with the knowledge you had!
+
+<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_07/instructions.md&dt=/intro&tid=UA-228112532-1" style="width: 1px; height: 1px"/>

@@ -156,3 +156,5 @@ Now the current functionality looks like following:
 ![Step 6 Result](https://raw.githubusercontent.com/salihgueler/keyboard_puzzle_dartpad_workshop/main/step_06/output.gif)
 
 Let's add the last gaming logic to the page and wrap it up!
+
+<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_06/instructions.md&dt=/intro&tid=UA-228112532-1" style="width: 1px; height: 1px"/>

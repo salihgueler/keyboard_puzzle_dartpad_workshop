@@ -77,3 +77,5 @@ class _LoginPageState extends State<LoginPage> {
 ```
 
 Now your shortcuts are part of your page, let's make them functional!
+
+<img alt="Google Analytics" src="https://www.google-analytics.com/collect?v=1&cid=1&t=pageview&ec=workshop&ea=open&dp=blob/main/step_03/instructions.md&dt=/intro&tid=UA-228112532-1" style="width: 1px; height: 1px"/>
