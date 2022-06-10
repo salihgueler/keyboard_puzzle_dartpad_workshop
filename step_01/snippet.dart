@@ -190,7 +190,7 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isGameFinished) {
         showDialog(
             context: context,
