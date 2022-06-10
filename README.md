@@ -1,4 +1,4 @@
-# keyboard_puzzle_dartpad_workshop
+# `keyboard_puzzle_dartpad_workshop`
 
 Use this [Creating a Keyboard Oriented Puzzle Game for Flutter][] DartPad workshop online.
 
