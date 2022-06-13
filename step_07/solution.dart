@@ -124,7 +124,7 @@ class _GameState extends State<Game> {
   }
 
   void _maybeShowDialog() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isGameFinished) {
         showDialog(
           context: context,
